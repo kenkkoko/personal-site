@@ -12,10 +12,10 @@
 <style>
 :root{
   --bg:#08080a;
-  --ink:#f4f4f5;
-  --text:#aeaeb4;
-  --muted:#6c6c74;
-  --faint:#48484f;
+  --ink:#f5f5f6;
+  --text:#c3c3c8;
+  --muted:#8f8f97;
+  --faint:#5a5a62;
   --glass:rgba(255,255,255,.045);
   --glass-2:rgba(255,255,255,.07);
   --line:rgba(255,255,255,.09);
@@ -36,7 +36,8 @@ svg{display:block}
 #poly{position:fixed;inset:0;z-index:-2;background:var(--bg)}
 #poly canvas{display:block;width:100%;height:100%}
 #vign{position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(120% 90% at 42% 42%,transparent 35%,rgba(8,8,10,.55) 78%,rgba(8,8,10,.9) 100%)}
+  background:radial-gradient(120% 90% at 42% 42%,transparent 22%,rgba(8,8,10,.62) 72%,rgba(8,8,10,.94) 100%),
+    linear-gradient(rgba(8,8,10,.2),rgba(8,8,10,.2))}
 
 /* ── nav pill ── */
 nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:100;
@@ -51,10 +52,10 @@ nav a.active{color:var(--ink);background:var(--glass-2)}
 @media(max-width:430px){nav a[data-opt]{display:none}}
 
 /* ── layout ── */
-.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+.wrap{max-width:1400px;margin:0 auto;padding:0 clamp(24px,4vw,60px)}
 section{position:relative}
-.h-sec{font-weight:800;letter-spacing:-.03em;font-size:clamp(38px,7vw,76px);line-height:1;
-  margin-bottom:clamp(26px,4vh,44px)}
+.h-sec{font-weight:800;letter-spacing:-.03em;font-size:clamp(30px,4.2vw,52px);line-height:1.05;
+  margin-bottom:clamp(24px,3.5vh,40px)}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
@@ -68,7 +69,10 @@ section{position:relative}
 #home .hi{font-weight:900;letter-spacing:-.04em;line-height:.95;
   font-size:clamp(54px,11vw,124px)}
 #home .sub{margin-top:22px;color:var(--text);font-size:clamp(16px,2.4vw,22px);font-weight:400;
-  letter-spacing:.01em}
+  letter-spacing:.01em;min-height:1.4em}
+.tw-caret{display:inline-block;margin-left:1px;color:var(--ink);font-weight:300;
+  transform:translateY(1px);animation:blink 1.05s step-end infinite}
+@keyframes blink{50%{opacity:0}}
 #home .zh{margin-top:10px;color:var(--muted);font-family:var(--mono);font-size:13px;letter-spacing:.14em}
 .scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
   font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--faint);
@@ -80,8 +84,8 @@ section{position:relative}
 
 /* ── about ── */
 #about{padding:clamp(60px,11vh,130px) 0}
-#about p{max-width:62ch;color:var(--text);font-weight:300;line-height:1.85;
-  font-size:clamp(16px,2vw,20px)}
+#about p{max-width:72ch;color:var(--text);font-weight:300;line-height:1.8;
+  font-size:clamp(15px,1.4vw,17.5px)}
 #about p b{color:var(--ink);font-weight:500}
 .socials{display:flex;gap:14px;margin-top:30px}
 .socials a{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;
@@ -115,7 +119,7 @@ section{position:relative}
   font-weight:300;font-size:14.5px;line-height:1.7;margin-bottom:4px}
 .exp-inner .blk li::before{content:"·";position:absolute;left:3px;color:var(--muted);font-weight:700}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.tag{font-family:var(--mono);font-size:11.5px;color:var(--text);letter-spacing:.02em;
+.tag{font-family:var(--mono);font-size:12px;color:var(--text);letter-spacing:.02em;
   border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:rgba(255,255,255,.02)}
 
 /* ── projects ── */
@@ -138,7 +142,7 @@ section{position:relative}
 .badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
   background:#f2f2f4;color:#08080a;border-radius:999px;padding:4px 9px;white-space:nowrap;font-weight:500}
 .badge.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
-.card p{color:var(--text);font-weight:300;font-size:14px;line-height:1.7;margin-top:14px;flex:1}
+.card p{color:var(--text);font-weight:300;font-size:15px;line-height:1.7;margin-top:14px;flex:1}
 .card-links{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 .plink{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;color:var(--ink);
   background:var(--glass-2);border:1px solid var(--line);border-radius:10px;padding:8px 13px;
@@ -158,8 +162,17 @@ section{position:relative}
   border-radius:10px;padding:8px 14px;backdrop-filter:blur(8px);transition:.25s var(--ease)}
 .chip:hover{background:var(--glass-2);border-color:rgba(255,255,255,.2)}
 @media(max-width:560px){.stack-row{grid-template-columns:1fr;gap:12px}}
-.edu{display:flex;flex-wrap:wrap;gap:10px 36px;margin-top:34px;
-  font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.03em}
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,70px)}
+.edu-label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px}
+.edu-item{display:grid;grid-template-columns:110px 1fr;gap:18px;align-items:start;
+  padding:16px 0;border-bottom:1px solid var(--line-soft);min-height:76px}
+.edu-item:first-of-type{border-top:1px solid var(--line-soft)}
+.edu-when{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.03em;white-space:nowrap}
+.edu-what{font-size:clamp(14px,1.1vw,15.5px);font-weight:300;color:var(--text);line-height:1.5}
+.edu-what b{color:var(--ink);font-weight:500}
+@media(max-width:640px){.edu-grid{grid-template-columns:1fr;gap:40px}
+  .edu-item{grid-template-columns:100px 1fr;gap:12px}}
 
 /* ── contact ── */
 #contact{padding:clamp(60px,12vh,140px) 0 0}
@@ -175,6 +188,46 @@ section{position:relative}
 footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
   padding:24px 0 46px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.06em}
+/* clickable card hint */
+.card{cursor:pointer}
+.card-more{margin-top:16px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;
+  color:var(--muted);display:inline-flex;align-items:center;gap:6px;transition:.25s var(--ease)}
+.card:hover .card-more{color:var(--ink)}
+.card-more .ar{transition:transform .25s var(--ease)}
+.card:hover .card-more .ar{transform:translateX(4px)}
+.exp-more{margin-top:18px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;cursor:pointer;
+  color:var(--text);background:var(--glass-2);border:1px solid var(--line);border-radius:999px;
+  padding:8px 15px;transition:.25s var(--ease)}
+.exp-more:hover{background:#f2f2f4;color:#08080a;border-color:#f2f2f4}
+
+/* detail modal */
+.modal{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:24px}
+.modal.open{display:flex}
+.modal-bg{position:absolute;inset:0;background:rgba(4,4,6,.72);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fadein .3s var(--ease)}
+.modal-panel{position:relative;z-index:1;width:min(960px,96vw);max-height:92vh;overflow:auto;
+  background:rgba(18,18,22,.82);border:1px solid var(--line);border-radius:20px;
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  box-shadow:0 30px 90px rgba(0,0,0,.6);padding:clamp(26px,4vw,44px);
+  animation:pop .4s var(--ease)}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.modal-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;
+  background:var(--glass);border:1px solid var(--line);color:var(--text);cursor:pointer;font-size:15px;
+  display:grid;place-items:center;transition:.25s var(--ease);z-index:2}
+.modal-close:hover{background:var(--glass-2);color:var(--ink)}
+.modal-meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px}
+.modal-panel h3{font-weight:700;font-size:clamp(24px,4.5vw,36px);letter-spacing:-.02em;line-height:1.08}
+.modal-body{color:var(--text);font-weight:300;line-height:1.85;font-size:15.5px;margin-top:18px}
+.modal-body p{margin-bottom:12px}.modal-body p:last-child{margin-bottom:0}
+.modal-body b{color:var(--ink);font-weight:500}
+.modal-cover{width:100%;border-radius:14px;border:1px solid var(--line);display:block;margin:20px 0 4px}
+.modal-imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:22px}
+.modal-imgs img{width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+@media(max-width:560px){.modal-imgs{grid-template-columns:1fr}}
+.modal-panel .tags{margin-top:22px}
+.modal-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 </style>
 </head>
 <body>
@@ -213,7 +266,20 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
   <section id="stack" class="wrap">
     <h2 class="h-sec rv">My Stack</h2>
     <div id="stackList"></div>
-    <div class="edu rv" id="edu"></div>
+  </section>
+
+  <section id="education" class="wrap">
+    <h2 class="h-sec rv">Education &amp; Awards</h2>
+    <div class="edu-grid">
+      <div class="edu-col rv">
+        <div class="edu-label">學歷 / Education</div>
+        <div id="eduList"></div>
+      </div>
+      <div class="edu-col rv" data-d="1">
+        <div class="edu-label">獎項 / Awards</div>
+        <div id="awardList"></div>
+      </div>
+    </div>
   </section>
 
   <section id="contact" class="wrap">
@@ -223,6 +289,15 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
     <footer id="foot"></footer>
   </section>
 </main>
+
+<!-- 點卡片後跳出的詳細內容彈窗 -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close aria-label="關閉">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
 
 <script>
 /* ════════════════════════════════════════════════════════════════════════
@@ -242,16 +317,19 @@ const SHARED = {
     {label:"Contact",    href:"#contact"},
   ],
   links: {
-    github:   "#",                                   // ← TODO 換成你的 GitHub
     linkedin: "#",                                   // ← TODO 換成你的 LinkedIn
     behance:  "#",                                   // ← TODO 換成你的 Behance
     resume:   "mailto:k28552219@gmail.com",          // 或放履歷 PDF 連結
   },
-  edu:[
-    "雲林科技大學 · 數位媒體設計研究所 碩士 ’23–’25",
-    "國立聯合大學 · 文化創意與數位行銷學系 學士 ’19–’23",
-    "苗栗縣政府 風箏節微電影(產學)· 空拍微電影大賽 優選",
-    "U-Start 創業競賽 通過第一輪",
+  /* ── 學歷(when=年份,what=內容;<b> 會變白) ── */
+  education:[
+    {when:"2023 – 2025", what:"<b>雲林科技大學</b> · 數位媒體設計研究所 碩士"},
+    {when:"2019 – 2023", what:"<b>國立聯合大學</b> · 文化創意與數位行銷學系 學士"},
+  ],
+  /* ── 獎項 ── */
+  awards:[
+    {when:"大學期間", what:"空拍微電影大賽 優選"},
+    {when:"碩士期間", what:"U-Start 創業競賽 通過第一輪"},
   ],
   contact:{
     email:"k28552219@gmail.com",
@@ -267,6 +345,8 @@ const PROFILES = {
     hero: {
       hi:  "Hi, I'm Kai",
       sub: "AI Product Builder · Product / Marketing / BD",
+      /* roles = Hero 打字機輪播的句子(會逐字打出再收回、反覆循環)。要改字就改這裡。 */
+      roles: ["AI Product Builder.","Product · Marketing · BD.","Designer who codes.","Ships fast with AI."],
       zh:  "林新凱 — 目標導向,用數據驗證成果",
     },
     about:
@@ -312,14 +392,34 @@ const PROFILES = {
         ],
         tech:["Blender","Maya","CG","3D Modeling"],
       },
+      {
+        role:"風箏節宣傳影片", org:"苗栗縣政府 · 產學合作", loc:"苗栗", period:"大學期間",
+        blocks:[
+          {h:"影音企劃", items:[
+            "為苗栗縣政府風箏節企劃與拍攝宣傳影片",
+          ]},
+        ],
+        tech:["影片企劃","拍攝","Premiere"],
+      },
     ],
     projectFilters:["All","Product","AI","Research"],
     projects: [
       {
         title:"Smart DCA", badge:"Live", cats:["Product","AI"],
         desc:"AI 投資輔助 Web App。把恐懼貪婪指數與 RSI 變成可操作的進場訊號,解決個人投資者進場無紀律的痛點。一人 3 週完成 MVP,整合加密 / 美股 / 台股三市場 + 社群論壇,Gemini LLM 新聞分析、LINE Bot 每日推播。",
-        links:[{label:"Live Demo",url:"https://dca.hellokai07.com/"},{label:"GitHub",url:"#"}],
+        links:[{label:"Live Demo",url:"https://dca.hellokai07.com/"}],
         tech:["HTML / JS","Supabase","Binance API","Gemini LLM","LINE Bot","TradingView","RSI / FNG"],
+        /* detail = 點卡片後的展示視窗(已放大)。因為 Smart DCA 要登入才看得到,
+           這裡用「封面 + 說明 + 截圖」呈現,讓人不登入也能看到內容。
+           圖片做法:把檔案放進 repo 的 images/ 資料夾,再把路徑填進下面。 */
+        detail:{
+          cover:"",   // 大張封面截圖(整頁寬),例:"images/dca-cover.png"
+          text:"<p>因為 Smart DCA 需登入才能體驗完整功能,這裡用截圖與說明呈現:</p>"+
+               "<p><b>核心功能</b> — 恐懼貪婪指數 + RSI 進場訊號、加密/美股/台股三市場整合、社群論壇、Gemini LLM 新聞分析、LINE Bot 每日推播。</p>"+
+               "<p><b>成長飛輪</b> — 每日推播訊號 → 提高回訪黏著 → 訊號準確強化保留。</p>"+
+               "<p><b>商業化</b> — 數據訂閱(基礎免費、深度 AI 分析付費)、達人 IP 內容分潤、社群廣告與券商導流。</p>",
+          images:[],  // 多張截圖,例:["images/dca-signal.png","images/dca-forum.png","images/dca-line.png"]
+        },
       },
       {
         title:"AI 協作 × 創造力研究", badge:"碩士論文", cats:["AI","Research"],
@@ -389,7 +489,22 @@ document.getElementById("nav").innerHTML =
 
 /* ---------- hero ---------- */
 document.getElementById("hi").textContent  = DATA.hero.hi;
-document.getElementById("sub").textContent = DATA.hero.sub;
+/* hero typewriter — types each role, pauses, deletes, loops */
+(function(){
+  const el=document.getElementById("sub"), roles=DATA.hero.roles;
+  if(!roles || !roles.length){ el.textContent = DATA.hero.sub || ""; return; }
+  el.innerHTML='<span id="tw"></span><span class="tw-caret">█</span>';
+  const tw=document.getElementById("tw");
+  let ri=0, ci=0, del=false;
+  (function tick(){
+    const w=roles[ri];
+    ci += del ? -1 : 1;
+    tw.textContent = w.slice(0,ci);
+    if(!del && ci===w.length){ del=true; return setTimeout(tick,1600); }
+    if(del && ci===0){ del=false; ri=(ri+1)%roles.length; return setTimeout(tick,420); }
+    setTimeout(tick, del?42:80);
+  })();
+})();
 document.getElementById("zh").textContent  = DATA.hero.zh;
 
 /* ---------- about ---------- */
@@ -404,16 +519,17 @@ document.getElementById("aboutText").innerHTML = DATA.about;
 }
 
 /* ---------- experience ---------- */
-document.getElementById("expList").innerHTML = DATA.experience.map(e=>{
+document.getElementById("expList").innerHTML = DATA.experience.map((e,i)=>{
   const blocks = e.blocks.map(b=>`<div class="blk"><h4>${b.h}</h4><ul>${
-      b.items.map(i=>`<li>${i}</li>`).join("")}</ul></div>`).join("");
+      b.items.map(it=>`<li>${it}</li>`).join("")}</ul></div>`).join("");
   const tags = (e.tech||[]).map(t=>`<span class="tag">${t}</span>`).join("");
   return `<div class="exp-card rv${e.open?' open':''}">
     <button class="exp-head" aria-expanded="${!!e.open}">
       <div><div class="exp-role">${e.role}</div><div class="exp-org">${e.org}${e.loc?'  ｜  '+e.loc:''}</div></div>
       <div class="exp-right"><span class="exp-period">${e.period}</span>${ICON.chev}</div>
     </button>
-    <div class="exp-body"><div class="exp-bw"><div class="exp-inner">${blocks}<div class="tags">${tags}</div></div></div></div>
+    <div class="exp-body"><div class="exp-bw"><div class="exp-inner">${blocks}<div class="tags">${tags}</div>
+      <button class="exp-more" data-i="${i}">查看更多 →</button></div></div></div>
   </div>`;
 }).join("");
 document.querySelectorAll(".exp-head").forEach(h=>{
@@ -421,6 +537,9 @@ document.querySelectorAll(".exp-head").forEach(h=>{
     const c=h.closest(".exp-card"), open=c.classList.toggle("open");
     h.setAttribute("aria-expanded",open);
   });
+});
+document.querySelectorAll(".exp-more").forEach(b=>{
+  b.addEventListener("click",ev=>{ev.stopPropagation(); openExp(DATA.experience[+b.dataset.i]);});
 });
 
 /* ---------- projects + filters ---------- */
@@ -437,12 +556,16 @@ function projCard(p){
     <p>${p.desc}</p>
     ${links?`<div class="card-links">${links}</div>`:""}
     <div class="tags">${tags}</div>
+    <span class="card-more">查看更多 <span class="ar">→</span></span>
   </article>`;
 }
 function renderProjects(filter){
-  grid.innerHTML = DATA.projects
-    .filter(p => filter==="All" || (p.cats||[]).includes(filter))
-    .map(projCard).join("");
+  const list = DATA.projects.filter(p => filter==="All" || (p.cats||[]).includes(filter));
+  grid.innerHTML = list.map(projCard).join("");
+  grid.querySelectorAll(".card").forEach((card,i)=>{
+    card.addEventListener("click",()=>openProj(list[i]));
+    card.querySelectorAll("a").forEach(a=>a.addEventListener("click",ev=>ev.stopPropagation()));
+  });
   observe(grid.querySelectorAll(".rv"));
 }
 document.getElementById("filters").innerHTML =
@@ -460,7 +583,45 @@ renderProjects("All");
 document.getElementById("stackList").innerHTML = DATA.stack.map(s=>`
   <div class="stack-row rv"><div class="sg">${s.group}</div>
     <div class="chips">${s.items.map(i=>`<span class="chip">${i}</span>`).join("")}</div></div>`).join("");
-document.getElementById("edu").innerHTML = DATA.edu.map(e=>`<span>${e}</span>`).join("");
+
+/* ---------- education & awards ---------- */
+const eduItem=o=>`<div class="edu-item"><div class="edu-when">${o.when||""}</div><div class="edu-what">${o.what}</div></div>`;
+document.getElementById("eduList").innerHTML   = (DATA.education||[]).map(eduItem).join("");
+document.getElementById("awardList").innerHTML = (DATA.awards||[]).map(eduItem).join("");
+
+/* ---------- detail modal ---------- */
+const modal=document.getElementById("modal"), modalContent=document.getElementById("modalContent");
+function openModal(html){ modalContent.innerHTML=html; modal.classList.add("open");
+  modal.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden";
+  const pn=modal.querySelector(".modal-panel"); if(pn) pn.scrollTop=0; }
+function closeModal(){ modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow=""; }
+modal.querySelectorAll("[data-close]").forEach(el=>el.addEventListener("click",closeModal));
+addEventListener("keydown",e=>{ if(e.key==="Escape" && modal.classList.contains("open")) closeModal(); });
+function imgGrid(a){ return (a&&a.length)?`<div class="modal-imgs">${a.map(s=>`<img src="${s}" alt="" loading="lazy">`).join("")}</div>`:""; }
+function tagRow(a){ return (a&&a.length)?`<div class="tags">${a.map(t=>`<span class="tag">${t}</span>`).join("")}</div>`:""; }
+function cover(d){ return (d&&d.cover)?`<img class="modal-cover" src="${d.cover}" alt="" loading="lazy">`:""; }
+function openExp(e){
+  const d=e.detail||{};
+  const text = d.text || e.blocks.map(b=>`<p><b>${b.h}</b><br>${b.items.join("<br>")}</p>`).join("");
+  openModal(`<div class="modal-meta">${e.org}${e.loc?' ｜ '+e.loc:''} · ${e.period}</div>
+    <h3>${e.role}</h3>
+    ${cover(d)}
+    <div class="modal-body">${text}</div>
+    ${imgGrid(d.images)}
+    ${tagRow(e.tech)}`);
+}
+function openProj(p){
+  const d=p.detail||{};
+  const links=(p.links||[]).map(l=>{const ext=isExt(l.url);
+    return `<a class="plink" href="${l.url}" ${ext?'target="_blank" rel="noopener"':''}>${l.label}${ext?ICON.ext:''}</a>`;}).join("");
+  openModal(`${p.badge?`<div class="modal-meta">${p.badge}</div>`:""}
+    <h3>${p.title}</h3>
+    ${cover(d)}
+    <div class="modal-body"><p>${p.desc}</p>${d.text||""}</div>
+    ${imgGrid(d.images)}
+    ${tagRow(p.tech)}
+    ${links?`<div class="modal-links">${links}</div>`:""}`);
+}
 
 /* ---------- contact ---------- */
 const C=DATA.contact;
@@ -510,7 +671,8 @@ function setup(){
   tris=[]; const id=(x,y)=>y*(cols+1)+x;
   for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
     const a=id(x,y),b=id(x+1,y),c=id(x,y+1),d=id(x+1,y+1);
-    if((x+y)%2===0){tris.push([a,b,d],[a,d,c]);}else{tris.push([a,b,c],[b,d,c]);}
+    const rv=()=>Math.random()*2-1;
+    if((x+y)%2===0){tris.push([a,b,d,rv()],[a,d,c,rv()]);}else{tris.push([a,b,c,rv()],[b,d,c,rv()]);}
   }
   light.x=W*.42; light.y=H*.46;
   if(reduce){draw(0);}            // static frame if user prefers reduced motion
@@ -530,7 +692,7 @@ function draw(t){
     const a=pts[tr[0]],b=pts[tr[1]],c=pts[tr[2]];
     const mx=(a.x+b.x+c.x)/3,my=(a.y+b.y+c.y)/3;
     const d=Math.hypot(mx-light.x,my-light.y)/md;
-    let l=16-d*15; if(l<3.5)l=3.5;
+    let l=18.5-d*16+tr[3]*3.6; if(l<3.5)l=3.5;
     const col="hsl(240 7% "+l.toFixed(1)+"%)";
     ctx.fillStyle=col; ctx.strokeStyle="hsl(240 7% "+(l+.8).toFixed(1)+"%)";
     ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.lineTo(c.x,c.y); ctx.closePath();
