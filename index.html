@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>林新凱 Kai Lin — AI Product Builder</title>
+<meta name="description" content="林新凱 Kai Lin — AI Product Builder。跨領域橫跨設計、程式與行銷,想清楚再做、用數據驗證成果。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#08080a;
+  --ink:#f4f4f5;
+  --text:#aeaeb4;
+  --muted:#6c6c74;
+  --faint:#48484f;
+  --glass:rgba(255,255,255,.045);
+  --glass-2:rgba(255,255,255,.07);
+  --line:rgba(255,255,255,.09);
+  --line-soft:rgba(255,255,255,.05);
+  --sans:"Geist","Noto Sans TC",system-ui,-apple-system,sans-serif;
+  --mono:"Geist Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;
+  letter-spacing:-.01em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:rgba(255,255,255,.85);color:#08080a}
+svg{display:block}
+
+/* ── low-poly fixed background ── */
+#poly{position:fixed;inset:0;z-index:-2;background:var(--bg)}
+#poly canvas{display:block;width:100%;height:100%}
+#vign{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(120% 90% at 42% 42%,transparent 35%,rgba(8,8,10,.55) 78%,rgba(8,8,10,.9) 100%)}
+
+/* ── nav pill ── */
+nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:100;
+  display:flex;gap:4px;padding:7px 9px;border-radius:999px;
+  background:rgba(20,20,24,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--line);box-shadow:0 8px 30px rgba(0,0,0,.4);max-width:94vw}
+nav a{font-size:13.5px;font-weight:500;color:var(--text);padding:8px 15px;border-radius:999px;
+  transition:.3s var(--ease);white-space:nowrap}
+nav a:hover{color:var(--ink)}
+nav a.active{color:var(--ink);background:var(--glass-2)}
+@media(max-width:680px){nav{gap:0;padding:5px 6px}nav a{padding:7px 10px;font-size:12px}}
+@media(max-width:430px){nav a[data-opt]{display:none}}
+
+/* ── layout ── */
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+section{position:relative}
+.h-sec{font-weight:800;letter-spacing:-.03em;font-size:clamp(38px,7vw,76px);line-height:1;
+  margin-bottom:clamp(26px,4vh,44px)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv[data-d="1"]{transition-delay:.07s}.rv[data-d="2"]{transition-delay:.14s}
+.rv[data-d="3"]{transition-delay:.21s}.rv[data-d="4"]{transition-delay:.28s}
+
+/* ── hero ── */
+#home{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 80px}
+#home .hi{font-weight:900;letter-spacing:-.04em;line-height:.95;
+  font-size:clamp(54px,11vw,124px)}
+#home .sub{margin-top:22px;color:var(--text);font-size:clamp(16px,2.4vw,22px);font-weight:400;
+  letter-spacing:.01em}
+#home .zh{margin-top:10px;color:var(--muted);font-family:var(--mono);font-size:13px;letter-spacing:.14em}
+.scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--faint);
+  display:flex;flex-direction:column;align-items:center;gap:9px}
+.scroll-cue i{width:1px;height:38px;background:linear-gradient(var(--faint),transparent);
+  animation:cue 2s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}
+  51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── about ── */
+#about{padding:clamp(60px,11vh,130px) 0}
+#about p{max-width:62ch;color:var(--text);font-weight:300;line-height:1.85;
+  font-size:clamp(16px,2vw,20px)}
+#about p b{color:var(--ink);font-weight:500}
+.socials{display:flex;gap:14px;margin-top:30px}
+.socials a{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;
+  background:var(--glass);border:1px solid var(--line);color:var(--text);
+  backdrop-filter:blur(10px);transition:.3s var(--ease)}
+.socials a:hover{color:var(--ink);background:var(--glass-2);transform:translateY(-3px)}
+.socials svg{width:19px;height:19px}
+
+/* ── experience accordion ── */
+#experience{padding:clamp(60px,11vh,130px) 0}
+.exp-card{background:var(--glass);border:1px solid var(--line);border-radius:16px;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);margin-bottom:14px;
+  overflow:hidden;transition:border-color .3s,background .3s}
+.exp-card:hover{border-color:rgba(255,255,255,.16)}
+.exp-head{width:100%;background:none;border:0;color:inherit;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:22px 24px;text-align:left;font-family:inherit}
+.exp-role{font-weight:600;font-size:clamp(16px,2.2vw,19px);letter-spacing:-.01em}
+.exp-org{color:var(--muted);font-size:13.5px;margin-top:4px;font-weight:300}
+.exp-right{display:flex;align-items:center;gap:16px;flex:none}
+.exp-period{font-family:var(--mono);font-size:12.5px;color:var(--text);letter-spacing:.03em;white-space:nowrap}
+.chev{width:20px;height:20px;color:var(--muted);transition:transform .4s var(--ease)}
+.exp-card.open .chev{transform:rotate(180deg)}
+.exp-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.exp-card.open .exp-body{grid-template-rows:1fr}
+.exp-bw{overflow:hidden}
+.exp-inner{padding:0 24px 24px;border-top:1px solid var(--line-soft)}
+.exp-inner .blk{margin-top:18px}
+.exp-inner .blk h4{font-weight:600;font-size:14.5px;color:var(--ink);margin-bottom:8px}
+.exp-inner .blk li{list-style:none;position:relative;padding-left:16px;color:var(--text);
+  font-weight:300;font-size:14.5px;line-height:1.7;margin-bottom:4px}
+.exp-inner .blk li::before{content:"·";position:absolute;left:3px;color:var(--muted);font-weight:700}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.tag{font-family:var(--mono);font-size:11.5px;color:var(--text);letter-spacing:.02em;
+  border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:rgba(255,255,255,.02)}
+
+/* ── projects ── */
+#projects{padding:clamp(60px,11vh,130px) 0}
+.filters{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:34px}
+.filters button{font-family:inherit;font-size:13px;font-weight:500;color:var(--text);cursor:pointer;
+  background:var(--glass);border:1px solid var(--line);border-radius:999px;padding:8px 17px;
+  backdrop-filter:blur(8px);transition:.25s var(--ease)}
+.filters button:hover{color:var(--ink)}
+.filters button.on{background:#f2f2f4;color:#08080a;border-color:#f2f2f4}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:24px;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;flex-direction:column;
+  transition:.35s var(--ease)}
+.card:hover{background:var(--glass-2);border-color:rgba(255,255,255,.18);transform:translateY(-4px)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.card h3{font-weight:600;font-size:19px;letter-spacing:-.02em;line-height:1.25}
+.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  background:#f2f2f4;color:#08080a;border-radius:999px;padding:4px 9px;white-space:nowrap;font-weight:500}
+.badge.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.card p{color:var(--text);font-weight:300;font-size:14px;line-height:1.7;margin-top:14px;flex:1}
+.card-links{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.plink{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;color:var(--ink);
+  background:var(--glass-2);border:1px solid var(--line);border-radius:10px;padding:8px 13px;
+  transition:.25s var(--ease)}
+.plink:hover{background:#f2f2f4;color:#08080a;border-color:#f2f2f4}
+.plink svg{width:13px;height:13px}
+.card .tags{margin-top:16px}
+
+/* ── stack ── */
+#stack{padding:clamp(60px,11vh,130px) 0}
+.stack-row{display:grid;grid-template-columns:130px 1fr;gap:24px;align-items:start;
+  padding:22px 0;border-top:1px solid var(--line-soft)}
+.stack-row:last-child{border-bottom:1px solid var(--line-soft)}
+.stack-row .sg{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted);padding-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{font-size:13.5px;font-weight:400;color:var(--ink);background:var(--glass);border:1px solid var(--line);
+  border-radius:10px;padding:8px 14px;backdrop-filter:blur(8px);transition:.25s var(--ease)}
+.chip:hover{background:var(--glass-2);border-color:rgba(255,255,255,.2)}
+@media(max-width:560px){.stack-row{grid-template-columns:1fr;gap:12px}}
+.edu{display:flex;flex-wrap:wrap;gap:10px 36px;margin-top:34px;
+  font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.03em}
+
+/* ── contact ── */
+#contact{padding:clamp(60px,12vh,140px) 0 0}
+#contact .h-sec{margin-bottom:18px}
+.mail{display:inline-flex;align-items:center;gap:14px;font-weight:500;letter-spacing:-.02em;
+  font-size:clamp(22px,4.5vw,46px);transition:.3s var(--ease)}
+.mail:hover{gap:22px;color:var(--text)}
+.mail svg{width:.7em;height:.7em}
+.cinfo{display:flex;flex-wrap:wrap;gap:14px 40px;margin-top:34px}
+.cinfo a,.cinfo span{font-family:var(--mono);font-size:13px;color:var(--text);letter-spacing:.03em;
+  display:inline-flex;gap:8px;align-items:center;transition:color .25s}
+.cinfo a:hover{color:var(--ink)}
+footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
+  padding:24px 0 46px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<div id="poly"></div>
+<div id="vign"></div>
+
+<nav id="nav"></nav>
+
+<!-- ═══════════════ 內容由下方 JS 的 DATA 物件產生 ═══════════════ -->
+<main>
+  <section id="home">
+    <h1 class="hi rv" id="hi"></h1>
+    <p class="sub rv" data-d="1" id="sub"></p>
+    <p class="zh rv" data-d="2" id="zh"></p>
+    <div class="scroll-cue">SCROLL<i></i></div>
+  </section>
+
+  <section id="about" class="wrap">
+    <h2 class="h-sec rv">About Me</h2>
+    <p class="rv" data-d="1" id="aboutText"></p>
+    <div class="socials rv" data-d="2" id="socials"></div>
+  </section>
+
+  <section id="experience" class="wrap">
+    <h2 class="h-sec rv">Experience</h2>
+    <div id="expList"></div>
+  </section>
+
+  <section id="projects" class="wrap">
+    <h2 class="h-sec rv">Personal Projects</h2>
+    <div class="filters rv" data-d="1" id="filters"></div>
+    <div class="grid" id="projGrid"></div>
+  </section>
+
+  <section id="stack" class="wrap">
+    <h2 class="h-sec rv">My Stack</h2>
+    <div id="stackList"></div>
+    <div class="edu rv" id="edu"></div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <h2 class="h-sec rv">Let's connect</h2>
+    <a class="mail rv" data-d="1" id="mail"></a>
+    <div class="cinfo rv" data-d="2" id="cinfo"></div>
+    <footer id="foot"></footer>
+  </section>
+</main>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   ▼▼▼  你要改的東西全部在這個 DATA 物件裡。改文字就好,不用碰上面的程式。 ▼▼▼
+   多版本機制:SHARED 是各版本共用(改一次全部生效);PROFILES 裡每個版本放各自文字。
+   預設顯示 DEFAULT_PROFILE;也可用網址 ?v=marketing 切換,方便對不同職缺寄不同連結。
+   要新增版本:複製整個 builder:{ … } 區塊,改名與內容即可。
+   ════════════════════════════════════════════════════════════════════════ */
+const SHARED = {
+  /* ── 各版本共用:改一次,所有版本生效 ── */
+  nav: [
+    {label:"Home",       href:"#home"},
+    {label:"About",      href:"#about"},
+    {label:"Experience", href:"#experience"},
+    {label:"Projects",   href:"#projects"},
+    {label:"Stack",      href:"#stack", opt:true},
+    {label:"Contact",    href:"#contact"},
+  ],
+  links: {
+    github:   "#",                                   // ← TODO 換成你的 GitHub
+    linkedin: "#",                                   // ← TODO 換成你的 LinkedIn
+    behance:  "#",                                   // ← TODO 換成你的 Behance
+    resume:   "mailto:k28552219@gmail.com",          // 或放履歷 PDF 連結
+  },
+  edu:[
+    "雲林科技大學 · 數位媒體設計研究所 碩士 ’23–’25",
+    "國立聯合大學 · 文化創意與數位行銷學系 學士 ’19–’23",
+    "苗栗縣政府 風箏節微電影(產學)· 空拍微電影大賽 優選",
+    "U-Start 創業競賽 通過第一輪",
+  ],
+  contact:{
+    email:"k28552219@gmail.com",
+    phone:"0925-230-110",
+    location:"桃園市中壢區(可配合板橋上班)",
+  },
+};
+
+const PROFILES = {
+
+  /* ═══════════ 版本 1:builder(AI Product Builder / CMoney)═══════════ */
+  builder: {
+    hero: {
+      hi:  "Hi, I'm Kai",
+      sub: "AI Product Builder · Product / Marketing / BD",
+      zh:  "林新凱 — 目標導向,用數據驗證成果",
+    },
+    about:
+      "跨領域橫跨設計、程式與行銷。我習慣花 <b>八成時間</b> 定義問題與設計流程、<b>兩成時間</b> 實作,目標導向、以數據驗證成果;多年接案養成 <b>獨立解決問題、快速自學陌生領域</b> 的能力,能自行補齊知識並把事情做到好,因此能快速把想法組合成 <b>能上線的產品</b>(如整合多個金融 API、交易指標、Gemini LLM 與 LINE Bot 的 AI 投資輔助 Web App「Smart DCA」)。",
+    experience: [
+      {
+        role:"遊戲美術外包", org:"自由接案", loc:"Remote", period:"2026 — 進行中", open:true,
+        blocks:[
+          {h:"角色與動畫", items:[
+            "為遊戲開發團隊設計 50 隻 2D 角色",
+            "以 RIVE 製作 150 組狀態驅動動畫,3 個月交付",
+            "依規格與業主反覆溝通迭代",
+          ]},
+        ],
+        tech:["RIVE","Photoshop","Illustrator","2D Animation"],
+      },
+      {
+        role:"宣導內容製作", org:"中壢地政事務所", loc:"桃園", period:"2026",
+        blocks:[
+          {h:"影音企劃", items:[
+            "公務宣導影片企劃與製作",
+          ]},
+        ],
+        tech:["Premiere","影片企劃","腳本"],
+      },
+      {
+        role:"VR 互動應用", org:"研究室產學合作", loc:"Taiwan", period:"2024 — 2025",
+        blocks:[
+          {h:"文化轉譯", items:[
+            "將原住民狩獵文化轉譯為 VR 互動內容",
+          ]},
+        ],
+        tech:["VR","互動設計","內容企劃"],
+      },
+      {
+        role:"CG 動畫與建模", org:"自由接案", loc:"跨國 · 英文協作", period:"2023 — 2025",
+        blocks:[
+          {h:"商業專案交付", items:[
+            "3–5 件商業專案:新加坡乳液品牌廣告 CG、建築 3D 列印、擴香石造型",
+            "獨立負責接洽 · 需求 · 供應商 · 品控 · 交付",
+            "跨國客戶以英文遠端協作",
+          ]},
+        ],
+        tech:["Blender","Maya","CG","3D Modeling"],
+      },
+    ],
+    projectFilters:["All","Product","AI","Research"],
+    projects: [
+      {
+        title:"Smart DCA", badge:"Live", cats:["Product","AI"],
+        desc:"AI 投資輔助 Web App。把恐懼貪婪指數與 RSI 變成可操作的進場訊號,解決個人投資者進場無紀律的痛點。一人 3 週完成 MVP,整合加密 / 美股 / 台股三市場 + 社群論壇,Gemini LLM 新聞分析、LINE Bot 每日推播。",
+        links:[{label:"Live Demo",url:"https://dca.hellokai07.com/"},{label:"GitHub",url:"#"}],
+        tech:["HTML / JS","Supabase","Binance API","Gemini LLM","LINE Bot","TradingView","RSI / FNG"],
+      },
+      {
+        title:"AI 協作 × 創造力研究", badge:"碩士論文", cats:["AI","Research"],
+        desc:"設計並執行 63 人對照實驗,建立量化指標(SemDis 語意距離 + 6 位專家評分),驗證三種創作模式成效差異。總結出「AI 抽象發散 → 人類篩選 → AI 協作精練」可複用流程並導入日常工作。",
+        links:[],
+        tech:["實驗設計","SemDis","量化分析","假設驗證"],
+      },
+      {
+        title:"VR Brainstorming NPC", badge:"IEEE 2024", cats:["AI","Research"],
+        desc:"整合 ChatGPT 於虛擬實境腦力激盪 NPC 之應用。發表於 IEEE GCCE 2024(日本九州)研討會。",
+        links:[{label:"操作影片",url:"https://youtu.be/hY4fIOQBAEU"}],
+        tech:["ChatGPT","VR","NPC","Unity"],
+      },
+    ],
+    stack: [
+      {group:"AI & Building", items:["Claude","Gemini","ChatGPT","Midjourney"]},
+      {group:"程式・開發",    items:["HTML","JavaScript","C#","Git"]},
+      {group:"後端・API",     items:["Supabase","API 串接(REST、LINE、金融)"]},
+      {group:"產品・數據",    items:["RStudio (R)","SPSS","實驗設計","量化分析","假設驗證","Notion"]},
+      {group:"設計",          items:["Blender","Maya","Photoshop","Illustrator","Premiere","Figma","RIVE"]},
+      {group:"語言",          items:["中文","英文 · TOEIC 735"]},
+    ],
+  },
+
+  /* ═══════════ 要新增版本(行銷 / 業務 / PM)═══════════
+     複製上面整個 builder:{ … } 區塊,改名成 marketing / bd / pm,
+     再改 hero、about、experience、projects、stack 的內容即可。
+     下面是模板(填好再用,或整段刪掉):
+
+  marketing: {
+    hero:{ hi:"Hi, I'm Kai", sub:"Product Marketing · Growth", zh:"林新凱 — 用數據說故事、驅動成長" },
+    about:"(行銷版的自我介紹…)",
+    experience:[ …同 builder 格式… ],
+    projectFilters:["All","Growth","Content","Product"],
+    projects:[ … ],
+    stack:[ … ],
+  },
+  */
+};
+
+/* 預設顯示哪個版本;也可用網址 ?v=marketing 切換(方便針對不同職缺寄不同連結) */
+const DEFAULT_PROFILE = "builder";
+const DATA = Object.assign({}, SHARED, PROFILES[new URLSearchParams(location.search).get("v")] || PROFILES[DEFAULT_PROFILE]);
+/* ════════════════════ ▲▲▲  DATA 結束。下面是程式,通常不用動。 ▲▲▲ ════════════════════ */
+
+
+/* ---------- icons ---------- */
+const ICON = {
+  github:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.7 5.6.7 11.9c0 5 3.3 9.3 7.8 10.8.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11 11 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.5-1.5 7.8-5.8 7.8-10.8C23.3 5.6 18.3.5 12 .5Z"/></svg>',
+  linkedin:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 3H3.6C3 3 2.5 3.5 2.5 4.1v15.8c0 .6.5 1.1 1.1 1.1h16.8c.6 0 1.1-.5 1.1-1.1V4.1c0-.6-.5-1.1-1.1-1.1ZM8.3 18.3H5.5V9.7h2.8v8.6ZM6.9 8.5a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2Zm11.4 9.8h-2.8v-4.2c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2v4.3H9.7V9.7h2.7v1.2h.1c.4-.7 1.3-1.4 2.6-1.4 2.8 0 3.3 1.8 3.3 4.2v4.6Z"/></svg>',
+  behance:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 11.3c.6-.3 1-.9 1-1.7 0-1.6-1.2-2.3-2.7-2.3H2v9.4h5.5c1.6 0 3-.8 3-2.6 0-1.1-.5-1.9-1.5-2.2ZM4.2 9h2.5c.6 0 1.1.2 1.1.9s-.4 1-1.1 1H4.2V9Zm2.8 5.7H4.2v-2.2h2.9c.7 0 1.3.3 1.3 1.1 0 .8-.6 1.1-1.4 1.1ZM21.9 13c0-2.1-1.2-3.8-3.4-3.8-2.1 0-3.6 1.6-3.6 3.7 0 2.2 1.4 3.6 3.6 3.6 1.7 0 2.8-.8 3.3-2.3h-1.9c-.2.5-.7.7-1.3.7-.9 0-1.4-.5-1.5-1.4h4.8c0-.1 0-.2 0-.4Zm-4.8-.9c.1-.8.6-1.3 1.4-1.3.8 0 1.3.5 1.3 1.3h-2.7ZM15.2 8.2h4.3V7.1h-4.3v1.1Z"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>',
+  ext:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>',
+  chev:'<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>',
+};
+const isExt = u => /^https?:/i.test(u||"");
+
+/* ---------- scroll reveal (defined early so renderers can use it) ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}
+}),{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+function observe(els){els.forEach(el=>io.observe(el));}
+
+/* ---------- nav ---------- */
+document.getElementById("nav").innerHTML =
+  DATA.nav.map(n=>`<a href="${n.href}"${n.opt?' data-opt':''}>${n.label}</a>`).join("");
+
+/* ---------- hero ---------- */
+document.getElementById("hi").textContent  = DATA.hero.hi;
+document.getElementById("sub").textContent = DATA.hero.sub;
+document.getElementById("zh").textContent  = DATA.hero.zh;
+
+/* ---------- about ---------- */
+document.getElementById("aboutText").innerHTML = DATA.about;
+{
+  const L=DATA.links, S=[];
+  if(L.github)   S.push(`<a href="${L.github}"   target="_blank" rel="noopener" aria-label="GitHub">${ICON.github}</a>`);
+  if(L.linkedin) S.push(`<a href="${L.linkedin}" target="_blank" rel="noopener" aria-label="LinkedIn">${ICON.linkedin}</a>`);
+  if(L.behance)  S.push(`<a href="${L.behance}"  target="_blank" rel="noopener" aria-label="Behance">${ICON.behance}</a>`);
+  if(L.resume)   S.push(`<a href="${L.resume}"   aria-label="Resume">${ICON.doc}</a>`);
+  document.getElementById("socials").innerHTML = S.join("");
+}
+
+/* ---------- experience ---------- */
+document.getElementById("expList").innerHTML = DATA.experience.map(e=>{
+  const blocks = e.blocks.map(b=>`<div class="blk"><h4>${b.h}</h4><ul>${
+      b.items.map(i=>`<li>${i}</li>`).join("")}</ul></div>`).join("");
+  const tags = (e.tech||[]).map(t=>`<span class="tag">${t}</span>`).join("");
+  return `<div class="exp-card rv${e.open?' open':''}">
+    <button class="exp-head" aria-expanded="${!!e.open}">
+      <div><div class="exp-role">${e.role}</div><div class="exp-org">${e.org}${e.loc?'  ｜  '+e.loc:''}</div></div>
+      <div class="exp-right"><span class="exp-period">${e.period}</span>${ICON.chev}</div>
+    </button>
+    <div class="exp-body"><div class="exp-bw"><div class="exp-inner">${blocks}<div class="tags">${tags}</div></div></div></div>
+  </div>`;
+}).join("");
+document.querySelectorAll(".exp-head").forEach(h=>{
+  h.addEventListener("click",()=>{
+    const c=h.closest(".exp-card"), open=c.classList.toggle("open");
+    h.setAttribute("aria-expanded",open);
+  });
+});
+
+/* ---------- projects + filters ---------- */
+const grid=document.getElementById("projGrid");
+function projCard(p){
+  const links=(p.links||[]).map(l=>{
+    const ext=isExt(l.url);
+    return `<a class="plink" href="${l.url}" ${ext?'target="_blank" rel="noopener"':''}>${l.label}${ext?ICON.ext:''}</a>`;
+  }).join("");
+  const tags=(p.tech||[]).map(t=>`<span class="tag">${t}</span>`).join("");
+  const badge = p.badge ? `<span class="badge${/Live/i.test(p.badge)?'':' ghost'}">${p.badge}</span>` : "";
+  return `<article class="card rv" data-cats="${(p.cats||[]).join(',')}">
+    <div class="card-top"><h3>${p.title}</h3>${badge}</div>
+    <p>${p.desc}</p>
+    ${links?`<div class="card-links">${links}</div>`:""}
+    <div class="tags">${tags}</div>
+  </article>`;
+}
+function renderProjects(filter){
+  grid.innerHTML = DATA.projects
+    .filter(p => filter==="All" || (p.cats||[]).includes(filter))
+    .map(projCard).join("");
+  observe(grid.querySelectorAll(".rv"));
+}
+document.getElementById("filters").innerHTML =
+  DATA.projectFilters.map((f,i)=>`<button class="${i===0?'on':''}">${f}</button>`).join("");
+document.querySelectorAll("#filters button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll("#filters button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    renderProjects(b.textContent);
+  });
+});
+renderProjects("All");
+
+/* ---------- stack ---------- */
+document.getElementById("stackList").innerHTML = DATA.stack.map(s=>`
+  <div class="stack-row rv"><div class="sg">${s.group}</div>
+    <div class="chips">${s.items.map(i=>`<span class="chip">${i}</span>`).join("")}</div></div>`).join("");
+document.getElementById("edu").innerHTML = DATA.edu.map(e=>`<span>${e}</span>`).join("");
+
+/* ---------- contact ---------- */
+const C=DATA.contact;
+const mail=document.getElementById("mail");
+mail.href=`mailto:${C.email}`; mail.innerHTML=`${C.email} ${ICON.ext}`;
+document.getElementById("cinfo").innerHTML =
+  `<a href="tel:${C.phone.replace(/[^0-9+]/g,'')}">📱 ${C.phone}</a>`+
+  `<span>📍 ${C.location}</span>`;
+document.getElementById("foot").innerHTML =
+  `<span>© ${new Date().getFullYear()} 林新凱 KAI LIN</span><span>桃園 · 台灣</span><span>BUILT WITH AI</span>`;
+
+/* ---------- reveal all rendered elements ---------- */
+observe(document.querySelectorAll(".rv"));
+
+/* ---------- nav active (scroll-spy) ---------- */
+const navLinks=[...document.querySelectorAll("#nav a")];
+const secs=DATA.nav.map(n=>document.querySelector(n.href)).filter(Boolean);
+const spy=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){
+    navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id));
+  }});
+},{rootMargin:"-45% 0px -50% 0px"});
+secs.forEach(s=>spy.observe(s));
+
+/* ---------- animated, mouse-interactive low-poly background (original, canvas2d) ---------- */
+const poly=document.getElementById("poly");
+const cvs=document.createElement("canvas"); poly.appendChild(cvs);
+const ctx=cvs.getContext("2d");
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let W,H,DPR,cols,rows,pts,tris,raf;
+const mouse={x:0,y:0,has:false}, light={x:0,y:0};
+
+function setup(){
+  W=innerWidth; H=Math.max(innerHeight,1); DPR=Math.min(devicePixelRatio||1,2);
+  cvs.width=W*DPR; cvs.height=H*DPR; cvs.style.width=W+"px"; cvs.style.height=H+"px";
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  cols=Math.max(7,Math.round(W/130)); rows=Math.max(6,Math.round(H/130));
+  const cw=W/cols, ch=H/rows; pts=[];
+  for(let y=0;y<=rows;y++)for(let x=0;x<=cols;x++){
+    const ex=(x===0||x===cols), ey=(y===0||y===rows);
+    const bx=x*cw+(ex?0:(Math.random()-.5)*cw*.66), by=y*ch+(ey?0:(Math.random()-.5)*ch*.66);
+    pts.push({bx,by,x:bx,y:by,
+      ax:ex?0:5+Math.random()*9, ay:ey?0:5+Math.random()*9,      // drift amplitude
+      sx:.3+Math.random()*.5,    sy:.3+Math.random()*.5,         // drift speed
+      px:Math.random()*6.283,    py:Math.random()*6.283});       // phase
+  }
+  tris=[]; const id=(x,y)=>y*(cols+1)+x;
+  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
+    const a=id(x,y),b=id(x+1,y),c=id(x,y+1),d=id(x+1,y+1);
+    if((x+y)%2===0){tris.push([a,b,d],[a,d,c]);}else{tris.push([a,b,c],[b,d,c]);}
+  }
+  light.x=W*.42; light.y=H*.46;
+  if(reduce){draw(0);}            // static frame if user prefers reduced motion
+}
+function draw(t){
+  for(const p of pts){
+    p.x=p.bx+Math.sin(t*0.001*p.sx+p.px)*p.ax;
+    p.y=p.by+Math.cos(t*0.001*p.sy+p.py)*p.ay;
+  }
+  const tx=mouse.has?mouse.x:W*.42+Math.sin(t*0.0003)*W*.14;     // light follows cursor,
+  const ty=mouse.has?mouse.y:H*.46+Math.cos(t*0.00026)*H*.14;    // else drifts slowly
+  light.x+=(tx-light.x)*.06; light.y+=(ty-light.y)*.06;
+  const md=Math.hypot(W,H);
+  ctx.clearRect(0,0,W,H);
+  ctx.lineWidth=.8;
+  for(const tr of tris){
+    const a=pts[tr[0]],b=pts[tr[1]],c=pts[tr[2]];
+    const mx=(a.x+b.x+c.x)/3,my=(a.y+b.y+c.y)/3;
+    const d=Math.hypot(mx-light.x,my-light.y)/md;
+    let l=16-d*15; if(l<3.5)l=3.5;
+    const col="hsl(240 7% "+l.toFixed(1)+"%)";
+    ctx.fillStyle=col; ctx.strokeStyle="hsl(240 7% "+(l+.8).toFixed(1)+"%)";
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.lineTo(c.x,c.y); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+  }
+}
+function loop(t){ draw(t); raf=requestAnimationFrame(loop); }
+setup();
+if(!reduce) raf=requestAnimationFrame(loop);
+addEventListener("pointermove",e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.has=true;},{passive:true});
+addEventListener("pointerleave",()=>{mouse.has=false;});
+let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(setup,180);});
+</script>
+</body>
+</html>
