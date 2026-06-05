@@ -36,8 +36,8 @@ svg{display:block}
 #poly{position:fixed;inset:0;z-index:-2;background:var(--bg)}
 #poly canvas{display:block;width:100%;height:100%}
 #vign{position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(120% 90% at 42% 42%,transparent 22%,rgba(8,8,10,.62) 72%,rgba(8,8,10,.94) 100%),
-    linear-gradient(rgba(8,8,10,.2),rgba(8,8,10,.2))}
+  background:radial-gradient(125% 95% at 42% 44%,transparent 30%,rgba(8,8,10,.4) 74%,rgba(8,8,10,.78) 100%),
+    linear-gradient(rgba(8,8,10,.12),rgba(8,8,10,.12))}
 
 /* ── nav pill ── */
 nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:100;
@@ -162,17 +162,17 @@ section{position:relative}
   border-radius:10px;padding:8px 14px;backdrop-filter:blur(8px);transition:.25s var(--ease)}
 .chip:hover{background:var(--glass-2);border-color:rgba(255,255,255,.2)}
 @media(max-width:560px){.stack-row{grid-template-columns:1fr;gap:12px}}
+#education{padding:clamp(60px,11vh,130px) 0}
 .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,70px)}
 .edu-label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
   color:var(--muted);margin-bottom:8px}
-.edu-item{display:grid;grid-template-columns:130px 1fr;gap:24px;align-items:baseline;
-  padding:16px 0;border-bottom:1px solid var(--line-soft);min-height:76px}
+.edu-item{padding:14px 0;border-bottom:1px solid var(--line-soft)}
 .edu-item:first-of-type{border-top:1px solid var(--line-soft)}
-.edu-when{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.03em;white-space:nowrap}
-.edu-what{font-size:clamp(14px,1.1vw,15.5px);font-weight:300;color:var(--text);line-height:1.5}
+.edu-when{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  letter-spacing:.06em;margin-bottom:5px}
+.edu-what{font-size:clamp(14.5px,1.1vw,16px);font-weight:300;color:var(--text);line-height:1.5}
 .edu-what b{color:var(--ink);font-weight:500}
-@media(max-width:640px){.edu-grid{grid-template-columns:1fr;gap:40px}
-  .edu-item{grid-template-columns:100px 1fr;gap:12px}}
+@media(max-width:640px){.edu-grid{grid-template-columns:1fr;gap:40px}}
 
 /* ── contact ── */
 #contact{padding:clamp(60px,12vh,140px) 0 0}
@@ -228,6 +228,12 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
 @media(max-width:560px){.modal-imgs{grid-template-columns:1fr}}
 .modal-panel .tags{margin-top:22px}
 .modal-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+/* ── 手機/平板左右留白(下列區塊原本水平 padding 被各自 #id 規則歸零,小螢幕會貼齊邊緣;放在最後確保覆蓋) ── */
+@media(max-width:1100px){
+  #about,#experience,#projects,#stack,#education,#contact{
+    padding-left:clamp(20px,5vw,40px);padding-right:clamp(20px,5vw,40px)}
+}
 </style>
 </head>
 <body>
@@ -299,6 +305,8 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
   </div>
 </div>
 
+<!-- 互動背景:Three.js faceted 平面(走 CDN;若被擋,改用同層的本機 three.min.js:把下行 src 換成 "three.min.js") -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script>
 /* ════════════════════════════════════════════════════════════════════════
    ▼▼▼  你要改的東西全部在這個 DATA 物件裡。改文字就好,不用碰上面的程式。 ▼▼▼
@@ -328,13 +336,14 @@ const SHARED = {
   ],
   /* ── 獎項 ── */
   awards:[
+    {when:"大學期間", what:"苗栗縣政府 風箏節微電影(產學合作)"},
     {when:"大學期間", what:"空拍微電影大賽 優選"},
     {when:"碩士期間", what:"U-Start 創業競賽 通過第一輪"},
   ],
   contact:{
     email:"k28552219@gmail.com",
     phone:"0925-230-110",
-    location:"桃園市中壢區(可配合板橋上班)",
+    location:"桃園市中壢區",
   },
 };
 
@@ -350,7 +359,7 @@ const PROFILES = {
       zh:  "林新凱 — 目標導向,用數據驗證成果",
     },
     about:
-      "跨領域橫跨設計、程式與行銷。我習慣花 <b>八成時間</b> 定義問題與設計流程、<b>兩成時間</b> 實作,目標導向、以數據驗證成果;多年接案養成 <b>獨立解決問題、快速自學陌生領域</b> 的能力,能自行補齊知識並把事情做到好,因此能快速把想法組合成 <b>能上線的產品</b>(如整合多個金融 API、交易指標、Gemini LLM 與 LINE Bot 的 AI 投資輔助 Web App「Smart DCA」)。",
+      "跨領域的產品實作者,橫跨設計、程式與行銷。我習慣花 <b>八成時間</b> 定義問題與設計流程、<b>兩成時間</b> 實作,目標導向、以數據驗證成果。我同時是財經產品的 <b>重度使用者</b> 與 <b>打造者</b>——自己經營交易分析論壇、用 TWSE 籌碼資料寫台股與加密貨幣技術分析,也一人 ship 出整合 <b>加密 / 美股 / 台股</b>、Gemini LLM 與 LINE Bot 推播的 AI 投資輔助 Web App「Smart DCA」。",
     experience: [
       {
         role:"遊戲美術外包", org:"自由接案", loc:"Remote", period:"2026 — 進行中", open:true,
@@ -391,15 +400,6 @@ const PROFILES = {
           ]},
         ],
         tech:["Blender","Maya","CG","3D Modeling"],
-      },
-      {
-        role:"風箏節宣傳影片", org:"苗栗縣政府 · 產學合作", loc:"苗栗", period:"大學期間",
-        blocks:[
-          {h:"影音企劃", items:[
-            "為苗栗縣政府風箏節企劃與拍攝宣傳影片",
-          ]},
-        ],
-        tech:["影片企劃","拍攝","Premiere"],
       },
     ],
     projectFilters:["All","Product","AI","Research"],
@@ -585,7 +585,7 @@ document.getElementById("stackList").innerHTML = DATA.stack.map(s=>`
     <div class="chips">${s.items.map(i=>`<span class="chip">${i}</span>`).join("")}</div></div>`).join("");
 
 /* ---------- education & awards ---------- */
-const eduItem=o=>`<div class="edu-item"><div class="edu-when">${o.when||""}</div><div class="edu-what">${o.what}</div></div>`;
+const eduItem=o=>`<div class="edu-item">${o.when?`<div class="edu-when">${o.when}</div>`:""}<div class="edu-what">${o.what}</div></div>`;
 document.getElementById("eduList").innerHTML   = (DATA.education||[]).map(eduItem).join("");
 document.getElementById("awardList").innerHTML = (DATA.awards||[]).map(eduItem).join("");
 
@@ -631,7 +631,7 @@ document.getElementById("cinfo").innerHTML =
   `<a href="tel:${C.phone.replace(/[^0-9+]/g,'')}">📱 ${C.phone}</a>`+
   `<span>📍 ${C.location}</span>`;
 document.getElementById("foot").innerHTML =
-  `<span>© ${new Date().getFullYear()} 林新凱 KAI LIN</span><span>桃園 · 台灣</span><span>BUILT WITH AI</span>`;
+  `<span>© ${new Date().getFullYear()} 林新凱 KAI LIN</span><span>桃園 · 台灣</span><span>BUILT WITH AI · rev 0604</span>`;
 
 /* ---------- reveal all rendered elements ---------- */
 observe(document.querySelectorAll(".rv"));
@@ -646,65 +646,79 @@ const spy=new IntersectionObserver(es=>{
 },{rootMargin:"-45% 0px -50% 0px"});
 secs.forEach(s=>spy.observe(s));
 
-/* ---------- animated, mouse-interactive low-poly background (original, canvas2d) ---------- */
-const poly=document.getElementById("poly");
-const cvs=document.createElement("canvas"); poly.appendChild(cvs);
-const ctx=cvs.getContext("2d");
-const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-let W,H,DPR,cols,rows,pts,tris,raf;
-const mouse={x:0,y:0,has:false}, light={x:0,y:0};
+/* ---------- 互動式 3D faceted 平面背景 (Three.js,參考 ciangoon.dev 風格) ----------
+   一整片由大量三角面組成的平面,表面像波浪起伏;flatShading 讓每個三角面平整、
+   隨光產生折射般的明暗;鏡頭與光源會平滑跟隨滑鼠。 */
+(function(){
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(typeof THREE==="undefined") return;                 // 缺 three.js 則保持純底色
+  const host = document.getElementById("poly");
+  const BG = 0x08080a;
 
-function setup(){
-  W=innerWidth; H=Math.max(innerHeight,1); DPR=Math.min(devicePixelRatio||1,2);
-  cvs.width=W*DPR; cvs.height=H*DPR; cvs.style.width=W+"px"; cvs.style.height=H+"px";
-  ctx.setTransform(DPR,0,0,DPR,0,0);
-  cols=Math.max(7,Math.round(W/130)); rows=Math.max(6,Math.round(H/130));
-  const cw=W/cols, ch=H/rows; pts=[];
-  for(let y=0;y<=rows;y++)for(let x=0;x<=cols;x++){
-    const ex=(x===0||x===cols), ey=(y===0||y===rows);
-    const bx=x*cw+(ex?0:(Math.random()-.5)*cw*.66), by=y*ch+(ey?0:(Math.random()-.5)*ch*.66);
-    pts.push({bx,by,x:bx,y:by,
-      ax:ex?0:5+Math.random()*9, ay:ey?0:5+Math.random()*9,      // drift amplitude
-      sx:.3+Math.random()*.5,    sy:.3+Math.random()*.5,         // drift speed
-      px:Math.random()*6.283,    py:Math.random()*6.283});       // phase
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(BG, 10, 40);                  // 遠處沒入底色
+
+  const camera = new THREE.PerspectiveCamera(62, innerWidth/innerHeight, 0.1, 120);
+  camera.position.set(0, 3.6, 13);
+
+  const renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:"high-performance"});
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1, 2));
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.setClearColor(BG, 1);
+  host.appendChild(renderer.domElement);
+
+  // 大量三角面的平面:非索引化 → 每個三角面有獨立法線,呈現清晰的 faceted 折射
+  const SEG = innerWidth < 700 ? 30 : 46;
+  let geo = new THREE.PlaneGeometry(70, 70, SEG, SEG);
+  geo.rotateX(-Math.PI/2.1);                             // 傾斜成往遠方延伸
+  geo = geo.toNonIndexed();
+  const mat = new THREE.MeshStandardMaterial({
+    color:0x1d1d26, roughness:0.5, metalness:0.28, flatShading:true,
+    polygonOffset:true, polygonOffsetFactor:1, polygonOffsetUnits:1
+  });
+  const mesh = new THREE.Mesh(geo, mat); mesh.position.y=-1.2; scene.add(mesh);
+  // 三角邊線(讓「由大量三角形組成」更明確)
+  const wire = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:0x42424f, wireframe:true, transparent:true, opacity:0.22}));
+  wire.position.copy(mesh.position); scene.add(wire);
+
+  // 燈光:低環境 + 強主光 → 三角面強烈明暗對比(折射感)
+  scene.add(new THREE.AmbientLight(0x2a2a34, 0.45));
+  const key  = new THREE.DirectionalLight(0xeaecf4, 2.4); key.position.set(8,12,5);  scene.add(key);
+  const fill = new THREE.PointLight(0x6470a0, 1.3, 80);   fill.position.set(-10,7,2); scene.add(fill);
+
+  const pos=geo.attributes.position, base=Float32Array.from(pos.array);
+  const mouse={x:0,y:0}, cur={x:0,y:0};
+  addEventListener("pointermove", e=>{ mouse.x=(e.clientX/innerWidth)*2-1; mouse.y=(e.clientY/innerHeight)*2-1; }, {passive:true});
+
+  function wave(t){
+    for(let i=0;i<pos.count;i++){
+      const ix=i*3, x=base[ix], z=base[ix+2];
+      pos.array[ix+1] = base[ix+1]
+        + Math.sin(x*0.33 + t*0.9)*0.70
+        + Math.cos(z*0.29 + t*0.65)*0.70
+        + Math.sin((x*0.6+z*0.4)*0.5 + t*0.5)*0.35;
+    }
+    pos.needsUpdate=true; geo.computeVertexNormals();      // 每面重算法線 → 折射隨波動變化
   }
-  tris=[]; const id=(x,y)=>y*(cols+1)+x;
-  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
-    const a=id(x,y),b=id(x+1,y),c=id(x,y+1),d=id(x+1,y+1);
-    const rv=()=>Math.random()*2-1;
-    if((x+y)%2===0){tris.push([a,b,d,rv()],[a,d,c,rv()]);}else{tris.push([a,b,c,rv()],[b,d,c,rv()]);}
+
+  let raf, t0=performance.now();
+  function frame(now){
+    const t=(now-t0)*0.001;
+    if(!reduce) wave(t);
+    cur.x += (mouse.x-cur.x)*0.045; cur.y += (mouse.y-cur.y)*0.045;   // 平滑跟隨
+    camera.position.x = cur.x*4; camera.position.y = 3.6 - cur.y*2;
+    camera.lookAt(0, 1.0, -6);
+    key.position.x = 8 + cur.x*7; key.position.z = 5 - cur.y*4;       // 光源也隨滑鼠
+    renderer.render(scene,camera); raf=requestAnimationFrame(frame);
   }
-  light.x=W*.42; light.y=H*.46;
-  if(reduce){draw(0);}            // static frame if user prefers reduced motion
-}
-function draw(t){
-  for(const p of pts){
-    p.x=p.bx+Math.sin(t*0.001*p.sx+p.px)*p.ax;
-    p.y=p.by+Math.cos(t*0.001*p.sy+p.py)*p.ay;
-  }
-  const tx=mouse.has?mouse.x:W*.42+Math.sin(t*0.0003)*W*.14;     // light follows cursor,
-  const ty=mouse.has?mouse.y:H*.46+Math.cos(t*0.00026)*H*.14;    // else drifts slowly
-  light.x+=(tx-light.x)*.06; light.y+=(ty-light.y)*.06;
-  const md=Math.hypot(W,H);
-  ctx.clearRect(0,0,W,H);
-  ctx.lineWidth=.8;
-  for(const tr of tris){
-    const a=pts[tr[0]],b=pts[tr[1]],c=pts[tr[2]];
-    const mx=(a.x+b.x+c.x)/3,my=(a.y+b.y+c.y)/3;
-    const d=Math.hypot(mx-light.x,my-light.y)/md;
-    let l=18.5-d*16+tr[3]*3.6; if(l<3.5)l=3.5;
-    const col="hsl(240 7% "+l.toFixed(1)+"%)";
-    ctx.fillStyle=col; ctx.strokeStyle="hsl(240 7% "+(l+.8).toFixed(1)+"%)";
-    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.lineTo(c.x,c.y); ctx.closePath();
-    ctx.fill(); ctx.stroke();
-  }
-}
-function loop(t){ draw(t); raf=requestAnimationFrame(loop); }
-setup();
-if(!reduce) raf=requestAnimationFrame(loop);
-addEventListener("pointermove",e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.has=true;},{passive:true});
-addEventListener("pointerleave",()=>{mouse.has=false;});
-let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(setup,180);});
+  if(reduce){ wave(0); camera.lookAt(0,1.0,-6); renderer.render(scene,camera); }
+  else raf=requestAnimationFrame(frame);
+
+  let rt; addEventListener("resize", ()=>{ clearTimeout(rt); rt=setTimeout(()=>{
+    camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  },150); });
+})();
 </script>
 </body>
 </html>
