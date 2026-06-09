@@ -96,6 +96,13 @@ section{position:relative}
   backdrop-filter:blur(10px);transition:.3s var(--ease)}
 .socials a:hover{color:var(--ink);background:var(--glass-2);transform:translateY(-3px)}
 .socials svg{width:19px;height:19px}
+/* 單張重點卡片(多益分數) */
+.hl-card{display:inline-flex;align-items:center;gap:10px;margin-top:26px;
+  font-size:14.5px;font-weight:500;color:var(--ink);background:var(--glass);
+  border:1px solid var(--line);border-radius:14px;padding:13px 20px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:.3s var(--ease)}
+.hl-card:hover{background:var(--glass-2);border-color:rgba(255,255,255,.18);transform:translateY(-2px)}
+.hl-card b{font-family:var(--mono);font-weight:600;letter-spacing:.04em;color:var(--ink)}
 
 /* ── experience accordion ── */
 #experience{padding:clamp(60px,11vh,130px) 0}
@@ -208,7 +215,7 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
 .modal.open{display:flex}
 .modal-bg{position:absolute;inset:0;background:rgba(4,4,6,.72);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fadein .3s var(--ease)}
-.modal-panel{position:relative;z-index:1;width:min(960px,96vw);max-height:92vh;overflow:auto;
+.modal-panel{position:relative;z-index:1;width:min(1180px,94vw);max-height:92vh;overflow:auto;
   background:rgba(18,18,22,.82);border:1px solid var(--line);border-radius:20px;
   backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
   box-shadow:0 30px 90px rgba(0,0,0,.6);padding:clamp(26px,4vw,44px);
@@ -222,12 +229,14 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
 .modal-meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);margin-bottom:10px}
 .modal-panel h3{font-weight:700;font-size:clamp(24px,4.5vw,36px);letter-spacing:-.02em;line-height:1.08}
-.modal-body{color:var(--text);font-weight:300;line-height:1.85;font-size:15.5px;margin-top:18px}
-.modal-body p{margin-bottom:12px}.modal-body p:last-child{margin-bottom:0}
-.modal-body b{color:var(--ink);font-weight:500}
-.modal-cover{width:100%;border-radius:14px;border:1px solid var(--line);display:block;margin:20px 0 4px}
-.modal-imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:22px}
-.modal-imgs img{width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+.modal-body{color:var(--text);font-weight:300;line-height:1.9;font-size:16.5px;margin-top:20px;max-width:78ch}
+.modal-body p{margin-bottom:14px}.modal-body p:last-child{margin-bottom:0}
+.modal-body b{color:var(--ink);font-weight:600}
+.modal-cover{width:100%;border-radius:14px;border:1px solid var(--line);display:block;margin:22px 0 4px;
+  background:rgba(255,255,255,.02)}
+.modal-imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px;margin-top:24px}
+.modal-imgs img{width:100%;border-radius:12px;border:1px solid var(--line);display:block;
+  background:rgba(255,255,255,.02)}
 @media(max-width:560px){.modal-imgs{grid-template-columns:1fr}}
 .modal-panel .tags{margin-top:22px}
 .modal-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
@@ -260,7 +269,8 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
   <section id="about" class="wrap">
     <h2 class="h-sec rv">About Me</h2>
     <p class="rv" data-d="1" id="aboutText"></p>
-    <div class="socials rv" data-d="2" id="socials"></div>
+    <div class="rv" data-d="2"><span class="hl-card">英文能力 · 多益 TOEIC <b>735</b></span></div>
+    <div class="socials rv" data-d="3" id="socials"></div>
   </section>
 
   <section id="experience" class="wrap">
@@ -327,6 +337,7 @@ const SHARED = {
     {label:"Experience", href:"#experience"},
     {label:"Projects",   href:"#projects"},
     {label:"Stack",      href:"#stack", opt:true},
+    {label:"Education",  href:"#education", opt:true},
     {label:"Contact",    href:"#contact"},
   ],
   links: {
@@ -361,10 +372,10 @@ const PROFILES = {
       sub: "AI Product Builder · Product / Marketing / BD",
       /* roles = Hero 打字機輪播的句子(會逐字打出再收回、反覆循環)。要改字就改這裡。 */
       roles: ["AI Product Builder.","Product · Marketing · BD.","Designer who codes.","Ships fast with AI."],
-      zh:  "林新凱 — 目標導向,用數據驗證成果",
+      zh:  "林新凱 — 定義目標、設計流程,用數據驗證成果",
     },
     about:
-      "跨領域的產品實作者,橫跨設計、程式與行銷。我習慣花 <b>八成時間</b> 定義問題與設計流程、<b>兩成時間</b> 實作,目標導向、以數據驗證成果。我同時是財經產品的 <b>重度使用者</b> 與 <b>打造者</b>自己經營交易分析論壇、用 TWSE 籌碼資料寫台股與加密貨幣技術分析,也一人 ship 出整合 <b>加密 / 美股 / 台股</b>、Gemini LLM 與 LINE Bot 推播的 AI 投資輔助 Web App「<a class=\"inline-link\" href=\"https://dca.hellokai07.com/\" target=\"_blank\" rel=\"noopener\">Smart DCA</a>」。",
+      "跨領域的產品實作者,橫跨設計、程式與行銷。我習慣花 <b>八成時間</b> 定義目標、釐清問題與設計流程,<b>兩成時間</b> 實作,目標導向,以數據驗證成果。從 3D 建模、影片到前後端,我能獨立把一個想法從概念帶到上線,也樂於分享跑通後的工作流程。我同時是財經產品的 <b>重度使用者</b> 與 <b>打造者</b>:自己經營交易分析論壇,用 TWSE 籌碼資料與鏈上數據寫台股與加密貨幣分析;也串接多方金融 API、整合多項指標,並一人打造了 AI 投資輔助 Web App「<a class=\"inline-link\" href=\"https://dca.hellokai07.com/\" target=\"_blank\" rel=\"noopener\">Smart DCA</a>」。",
     experience: [
       {
         role:"遊戲美術外包", org:"自由接案", loc:"Remote", period:"2026 — 進行中", open:true,
@@ -375,26 +386,38 @@ const PROFILES = {
             "依規格與業主反覆溝通迭代",
           ]},
         ],
-        tech:["RIVE","Photoshop","Illustrator","2D Animation"],
+        tech:["RIVE","Photoshop","Illustrator","Figma","2D Animation"],
       },
       {
-        role:"地政事務所影片製作與AI教學", org:"中壢地政事務所", loc:"桃園", period:"2026",
+        role:"AI 影片工作流程教學", org:"中壢地政事務所", loc:"桃園", period:"2026",
         blocks:[
-          {h:"影音企劃", items:[
-            "公務宣導影片企劃與製作剪輯",
-            "協助地政事務所同仁掌握AI工作流程",
+          {h:"影音企劃與製作", items:[
+            "為事務所企劃並製作公務宣導影片(腳本、AI 生成、剪輯)",
+            "影片成果獲地政主任肯定,進而受邀為所內同仁授課",
+          ]},
+          {h:"AI 教學", items:[
+            "將個人「AI 影片製作工作流程」整理成系統化簡報,為非技術背景的公務同仁授課",
+            "拆解流程與決策邏輯,協助同仁將 AI 導入日常公務,降低製作門檻",
+            "教學簡報:<a class=\"inline-link\" href=\"https://app.notion.com/p/AI-379ebfd1088880b89706e5f5144e4bc5\" target=\"_blank\" rel=\"noopener\">AI 影片製作工作流程(Notion)</a>",
           ]},
         ],
-        tech:["Premiere","影片製作","腳本","教學"],
+        tech:["Premiere","AI 影片生成","工作流程設計","簡報","教學"],
       },
       {
-        role:"VR 互動應用", org:"研究室產學合作", loc:"Taiwan", period:"2024 — 2025",
+        role:"VR 文化典藏互動應用", org:"數位媒體設計所 · 人機互動研究室", loc:"台東南王部落", period:"2024 — 2025",
         blocks:[
-          {h:"文化轉譯", items:[
-            "將原住民狩獵文化轉譯為 VR 互動內容",
+          {h:"田野調查與訪談", items:[
+            "參與「台東南王部落狩獵文化數位典藏保存推廣計畫」",
+            "實際前往南王部落進行族人訪談與田野考察,蒐集文化脈絡與口述素材",
+            "親身體驗射箭、走獸徑等狩獵文化活動,作為內容設計依據",
+          ]},
+          {h:"我的角色", items:[
+            "專案企劃:規劃 VR 內容架構與文化轉譯方式",
+            "3D 建模:參考族人實際獵槍造型製作 3D 模型",
+            "互動功能製作:在 Unity 中開發狩獵文化體驗的互動機制",
           ]},
         ],
-        tech:["VR","Unity","內容企劃","建模","C#"],
+        tech:["VR","Unity","C#","3D 建模","田野調查","內容企劃","文化轉譯"],
       },
       {
         role:"CG 動畫與建模", org:"自由接案", loc:"跨國 · 英文協作", period:"2023 — 2025",
@@ -412,44 +435,45 @@ const PROFILES = {
     projects: [
       {
         title:"Smart DCA", badge:"Live", cats:["Product","AI"],
-        desc:"AI 投資輔助 Web App。把恐懼貪婪指數與 RSI 變成可操作的進場訊號,解決個人投資者進場無紀律的痛點。一人 3 週完成 MVP,整合加密 / 美股 / 台股三市場 + 社群論壇,Gemini LLM 新聞分析、LINE Bot 每日推播。",
+        desc:"AI 投資輔助 Web App。用恐懼貪婪指數與 RSI 等簡單指標作為進出場策略,把市場情緒轉成清楚的訊號,幫使用者建立投資紀律。整合加密 / 美股 / 台股三市場、投資組合追蹤與社群論壇,以 Gemini 自動總結財經新聞與市場建議,並透過 LINE Bot 與 Web Push 每日推播。一人從 0 設計到上線。",
         links:[{label:"Live Demo",url:"https://dca.hellokai07.com/"}],
-        tech:["HTML / JS","Supabase","Binance API","Gemini LLM","LINE Bot","TradingView","RSI / FNG"],
+        tech:["HTML / JS","Supabase","yfinance","Gemini LLM","LINE Bot","Web Push","PWA","RSI / FNG"],
         /* detail = 點卡片後的展示視窗(已放大)。因為 Smart DCA 要登入才看得到,
            這裡用「封面 + 說明 + 截圖」呈現,讓人不登入也能看到內容。
            圖片做法:把檔案放進 repo 的 images/ 資料夾,再把路徑填進下面。 */
         detail:{
           cover:"IMG/smartDCA/PNG/MAIN.png",   // 彈窗最上方大圖
-          text:"<p>因為 Smart DCA 需登入才能體驗完整功能,這裡用截圖與說明呈現:</p>"+
-               "<p><b>核心功能</b> — 恐懼貪婪指數 + RSI 進場訊號、加密/美股/台股三市場整合、投資portfolio、社群論壇、Gemini LLM 新聞分析、LINE Bot 每日推播。</p>"+
-               "<p><b>成長飛輪</b> — 每日推播訊號 → 提高回訪黏著 → 訊號準確強化保留。</p>"+
-               "<p><b>商業化</b> — 數據訂閱(基礎免費、深度 AI 分析付費)、達人 IP 內容分潤、社群廣告與券商導流。</p>",
+          text:"<p><b>痛點</b> — 個人投資者容易被情緒帶著走、進出場缺乏紀律。我用恐懼貪婪指數與 RSI 等簡單指標,把抽象的市場情緒轉成明確的進出場訊號,再用每日推播提醒,協助使用者建立紀律。</p>"+
+               "<p><b>運作流程</b> — yfinance 與 CNN 抓取行情與情緒指數 → 後端依 RSI / 恐懼貪婪門檻計算進出場訊號 → Supabase 儲存使用者與自選清單 → 前端呈現三市場儀表板 → 每日透過 LINE Bot 與 Web Push 推播。一人從 0 設計到上線,3 週完成 MVP。</p>"+
+               "<p><b>核心功能</b> — 三市場(加密 / 美股 / 台股)訊號整合、投資組合追蹤、社群論壇、Gemini 自動總結財經新聞與市場建議、可安裝 PWA。</p>"+
+               "<p><b>未來規劃</b> — 投資建議的 AI 功能將進一步開發成 AI Agent,主動依使用者持倉與風險偏好給出個人化策略;商業化規劃數據訂閱(基礎免費、深度 AI 分析付費)、達人 IP 內容分潤與券商導流。</p>",
           images:["IMG/smartDCA/PNG/PFO+ARTICLE.png"],  // 彈窗大圖下方的第二張
         },
       },
       {
         title:"AI 協作 × 創造力研究", badge:"碩士論文", cats:["AI","Research"],
-        desc:"設計並執行 63 人對照實驗,建立量化指標(SemDis 語意距離 + 6 位專家評分),驗證三種創作模式成效差異。總結出「AI 抽象發散 → 人類篩選 → AI 協作精練」可複用流程並導入日常工作。",
+        desc:"碩士論文。同一項創意發想任務,由人類獨力完成、與 AI 協作、或全交給生成式 AI,成效有何差異?設計 63 人對照實驗,以語意距離、專家評分與流暢性量化創造力,提出依任務抽象程度選擇發想模式的策略。",
         links:[{label:"論文 PDF",url:"IMG/Master/MasterArticle.pdf"}],
-        tech:["實驗設計","語意距離","量化分析","假設驗證"],
+        tech:["實驗設計","SemDis 語意距離","混合效應模型","量化分析","假設驗證"],
         detail:{
           cover:"IMG/Master/Master_workflow.png",
-          text:"<p><b>研究主題</b> — 探討不同 AI 協作模式對人類創造力的影響。</p>"+
-               "<p><b>實驗設計</b> — 以 MRC 心理語言資料庫設計字詞聯想測驗(WAT),將 63 名受試者分為人類組、AI 協作組、生成式 AI 組三種創作模式。</p>"+
-               "<p><b>創意量化</b> — 結合 SemDis 語義距離分析、6 位專家共識評分與流暢性(回答數量)三項指標,進行數據分析與視覺化。</p>"+
-               "<p><b>成果</b> — 總結出「AI 抽象發散 → 人類篩選 → AI 協作精練」的可複用流程並導入日常工作。完整內容見論文 PDF。</p>",
+          text:"<p><b>目標與問題</b> — 面對同一項創意發想任務,由人類獨力、與 AI 協作、或全交給生成式 AI,成效究竟有何差異?我想找出「依任務抽象程度選擇最有效發想模式」的策略。</p>"+
+               "<p><b>我設計的實驗流程</b> — 將受試者分為人類組、AI 協作組、生成式 AI(ChatGPT)組各 21 人(共 63 人);從 MRC 心理語言資料庫選出 10 個由抽象到具體的詞,設計字詞聯想測驗(WAT)作為發散思考任務。</p>"+
+               "<p><b>怎麼量化創造力</b> — 以 SemDis 平台計算語意距離、邀 6 位專家就原創性 / 變通性 / 精進性 / 適切性做共識評分、並以回答數量衡量流暢性;再用線性與廣義線性混合效應模型做統計分析。</p>"+
+               "<p><b>結果</b> — 抽象詞引發更高的語意距離與專家評分、但流暢性較低;生成式 AI 語意距離最高,然而專家評分三組無顯著差異,代表 AI 的創造品質已達人類水準;協作模式的流暢性顯著高於純人類;部分人類個案仍超越兩種 AI 模式,顯示人類獨創性不可取代。</p>"+
+               "<p><b>可複用的工作流程</b> — 抽象階段交給生成式 AI 發散 → 人類做價值對齊與篩選 → AI 協助精練。完整內容見論文 PDF。</p>",
         },
       },
       {
         title:"虛擬實境腦力激盪AI NPC", badge:"IEEE 2024 研討會", cats:["VR","AI","Research"],
-        desc:"整合 ChatGPT 於虛擬實境腦力激盪 NPC 之應用。發表於 IEEE GCCE 2024(日本九州)研討會。",
+        desc:"IEEE GCCE 2024(日本九州)研討會論文。傳統腦力激盪受限於參與者既有知識而容易卡關——我設計一套把 ChatGPT AI NPC 整合進 VR 的系統框架,讓使用者用語音與 NPC 對話,即時取得新觀點、回饋與引導,提升虛擬實境腦力激盪(VB)的成效。",
         links:[{label:"操作影片",url:"https://youtu.be/hY4fIOQBAEU"}],
-        tech:["ChatGPT","VR","NPC","Unity"],
+        tech:["VR","Unity","NPC","ChatGPT 4o","Whisper","Amazon Polly"],
         detail:{
           cover:"IMG/VR_chatgpt/workflow.png",
-          text:"<p><b>應用</b> — 在虛擬實境中打造可即時對話的 AI NPC,協助使用者進行腦力激盪。</p>"+
-               "<p><b>技術流程</b> — 使用者語音經 OpenAI Whisper 轉文字,送入 ChatGPT 4o 生成回應,再由 Amazon Polly 文字轉語音回饋給使用者,形成完整的語音互動迴圈。</p>"+
-               "<p><b>操作</b> — 在 VR 場景中按鈕輸入語音、總結重點、提供範例。</p>"+
+          text:"<p><b>目標與問題</b> — 傳統腦力激盪受限於參與者既有知識,討論容易停滯。我想用 AI NPC 作為協作助手,即時提供新觀點、適當回饋與引導,並協助整理思緒、深化討論。</p>"+
+               "<p><b>我設計的系統框架</b> — 使用者語音 → OpenAI Whisper 轉文字 → ChatGPT 4o 生成回應 → Amazon Polly 文字轉語音回饋,形成即時的語音互動迴圈;對話內容並寫入資料庫保存。</p>"+
+               "<p><b>互動設計</b> — 在 VR 場景中以按鈕輸入語音、請 NPC 總結重點、提供參考範例,降低使用者組織想法的負擔。</p>"+
                "<p><b>發表</b> — IEEE GCCE 2024(日本九州)研討會。</p>",
           images:["IMG/VR_chatgpt/workflow1.png"],
         },
@@ -461,7 +485,7 @@ const PROFILES = {
       {group:"後端・API",     items:["Supabase","API 串接(REST、LINE、金融)"]},
       {group:"產品・數據",    items:["RStudio (R)","SPSS","實驗設計","量化分析","假設驗證","Notion"]},
       {group:"設計",          items:["Blender","Maya","Photoshop","Illustrator","Premiere","Figma","RIVE"]},
-      {group:"語言",          items:["中文","英文 · TOEIC 735"]},
+      {group:"語言",          items:["中文(母語)","英文 · 多益 735"]},
     ],
   },
 
@@ -555,8 +579,13 @@ document.getElementById("expList").innerHTML = DATA.experience.map((e,i)=>{
 }).join("");
 document.querySelectorAll(".exp-head").forEach(h=>{
   h.addEventListener("click",()=>{
-    const c=h.closest(".exp-card"), open=c.classList.toggle("open");
-    h.setAttribute("aria-expanded",open);
+    const c=h.closest(".exp-card"), willOpen=!c.classList.contains("open");
+    /* 手風琴:展開一張時,自動收起其他張 */
+    document.querySelectorAll(".exp-card.open").forEach(o=>{
+      if(o!==c){o.classList.remove("open"); o.querySelector(".exp-head").setAttribute("aria-expanded","false");}
+    });
+    c.classList.toggle("open",willOpen);
+    h.setAttribute("aria-expanded",willOpen);
   });
 });
 document.querySelectorAll(".exp-more").forEach(b=>{
@@ -566,10 +595,9 @@ document.querySelectorAll(".exp-more").forEach(b=>{
 /* ---------- projects + filters ---------- */
 const grid=document.getElementById("projGrid");
 function projCard(p){
-  const links=(p.links||[]).map(l=>{
-    const ext=isExt(l.url);
-    return `<a class="plink" href="${l.url}" ${ext?'target="_blank" rel="noopener"':''}>${l.label}${ext?ICON.ext:''}</a>`;
-  }).join("");
+  const links=(p.links||[]).map(l=>
+    `<a class="plink" href="${l.url}" target="_blank" rel="noopener">${l.label}${ICON.ext}</a>`
+  ).join("");
   const tags=(p.tech||[]).map(t=>`<span class="tag">${t}</span>`).join("");
   const badge = p.badge ? `<span class="badge${/Live/i.test(p.badge)?'':' ghost'}">${p.badge}</span>` : "";
   return `<article class="card rv" data-cats="${(p.cats||[]).join(',')}">
@@ -633,8 +661,8 @@ function openExp(e){
 }
 function openProj(p){
   const d=p.detail||{};
-  const links=(p.links||[]).map(l=>{const ext=isExt(l.url);
-    return `<a class="plink" href="${l.url}" ${ext?'target="_blank" rel="noopener"':''}>${l.label}${ext?ICON.ext:''}</a>`;}).join("");
+  const links=(p.links||[]).map(l=>
+    `<a class="plink" href="${l.url}" target="_blank" rel="noopener">${l.label}${ICON.ext}</a>`).join("");
   openModal(`${p.badge?`<div class="modal-meta">${p.badge}</div>`:""}
     <div class="modal-head"><h3>${p.title}</h3>${links?`<div class="modal-links">${links}</div>`:""}</div>
     <div class="modal-body"><p>${p.desc}</p>${d.text||""}</div>
@@ -665,6 +693,14 @@ const spy=new IntersectionObserver(es=>{
   }});
 },{rootMargin:"-45% 0px -50% 0px"});
 secs.forEach(s=>spy.observe(s));
+/* 捲到頁面最底時,IntersectionObserver 可能無法把最後一段(Contact)推進判定帶,
+   這裡補上:接近底部就強制把最後一個導覽項設為 active。 */
+addEventListener("scroll",()=>{
+  if(innerHeight+Math.ceil(scrollY) >= document.documentElement.scrollHeight-2 && secs.length){
+    const last="#"+secs[secs.length-1].id;
+    navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")===last));
+  }
+},{passive:true});
 
 /* ---------- 互動式 3D faceted 平面背景 (Three.js,參考 ciangoon.dev 風格) ----------
    一整片由大量三角面組成的平面,表面像波浪起伏;flatShading 讓每個三角面平整、
