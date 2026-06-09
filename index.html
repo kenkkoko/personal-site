@@ -41,11 +41,12 @@ a{color:inherit;text-decoration:none}
 svg{display:block}
 
 /* ── low-poly fixed background ──
-   用「大視窗高度」(lvh,即手機網址列收起時的高度;100vh 為後備)鎖定背景高度。
-   手機瀏覽器網址列展開/收合時,背景一律以最大高度蓋滿,底部波浪不會露出純色。 */
-#poly{position:fixed;top:0;left:0;width:100%;height:100vh;height:100lvh;z-index:-2;background:var(--bg)}
+   用「動態視窗高度」(dvh,跟著手機網址列開合的目前可視高度;100vh 為後備),
+   讓背景剛好填滿「看得到的範圍」。canvas 的顯示尺寸交給 CSS 100%,
+   切換時不會露出純色,波浪下緣也不會被推到網址列底下看不到。 */
+#poly{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:-2;background:var(--bg)}
 #poly canvas{display:block;width:100%;height:100%}
-#vign{position:fixed;top:0;left:0;width:100%;height:100vh;height:100lvh;z-index:-1;pointer-events:none;
+#vign{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:-1;pointer-events:none;
   background:radial-gradient(125% 95% at 42% 44%,transparent 30%,rgba(8,8,10,.4) 74%,rgba(8,8,10,.78) 100%),
     linear-gradient(rgba(8,8,10,.12),rgba(8,8,10,.12))}
 
@@ -802,8 +803,8 @@ addEventListener("scroll",()=>{
   scene.fog = new THREE.Fog(BG, 10, 40);                  // 遠處沒入底色
 
   /* 用 #poly(fixed; inset:0)的實際尺寸,而非會隨手機網址列收合而變動的
-     window.innerHeight;否則網址列收起後 canvas 高度不足,底部波浪會露出純色沒蓋滿 */
-  const vsize = () => [host.clientWidth || innerWidth, Math.max(host.clientHeight||0, innerHeight||0)];
+     window.innerHeight。#poly 為 100dvh,clientHeight 即目前可視高度 */
+  const vsize = () => [host.clientWidth || innerWidth, host.clientHeight || innerHeight];
   let [VW, VH] = vsize();
 
   const camera = new THREE.PerspectiveCamera(62, VW/VH, 0.1, 120);
@@ -811,7 +812,9 @@ addEventListener("scroll",()=>{
 
   const renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:"high-performance"});
   renderer.setPixelRatio(Math.min(devicePixelRatio||1, 2));
-  renderer.setSize(VW, VH);
+  /* 第三參數 false:不寫死 canvas 的 inline 尺寸,顯示交給 CSS width/height:100%,
+     網址列開合時 canvas 仍隨 #poly(dvh)填滿,只有解析度於 resize 後更新 */
+  renderer.setSize(VW, VH, false);
   renderer.setClearColor(BG, 1);
   host.appendChild(renderer.domElement);
 
@@ -865,13 +868,16 @@ addEventListener("scroll",()=>{
   function resize(){
     [VW, VH] = vsize();
     camera.aspect = VW/VH; camera.updateProjectionMatrix();
-    renderer.setSize(VW, VH);
+    renderer.setSize(VW, VH, false);
     if(reduce){ wave(0); camera.lookAt(0,1.0,-6); renderer.render(scene,camera); }
   }
-  let rt; const onResize = ()=>{ clearTimeout(rt); rt=setTimeout(resize,150); };
+  let rt; const onResize = ()=>{ clearTimeout(rt); rt=setTimeout(resize,120); };
   addEventListener("resize", onResize);
   addEventListener("orientationchange", onResize);
-  if(window.visualViewport){ visualViewport.addEventListener("resize", onResize); }
+  if(window.visualViewport){
+    visualViewport.addEventListener("resize", onResize);
+    visualViewport.addEventListener("scroll", onResize);   // iOS 網址列收合時觸發
+  }
 })();
 </script>
 </body>

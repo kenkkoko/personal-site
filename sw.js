@@ -1,5 +1,5 @@
 /* Kai Lin 個人網站 — Service Worker(network-first,離線時退回快取) */
-const CACHE = "kai-site-v2";
+const CACHE = "kai-site-v3";
 const SHELL = [
   "/",
   "/index.html",
