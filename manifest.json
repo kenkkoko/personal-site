@@ -1,0 +1,17 @@
+{
+  "name": "林新凱 Kai Lin — AI Product Builder",
+  "short_name": "Kai Lin",
+  "description": "林新凱 Kai Lin — AI Product Builder。跨領域橫跨設計、程式與行銷,定義目標、設計流程,用數據驗證成果。",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#08080a",
+  "theme_color": "#08080a",
+  "lang": "zh-Hant",
+  "icons": [
+    { "src": "/IMG/logo/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/IMG/logo/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/IMG/logo/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

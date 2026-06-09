@@ -6,6 +6,12 @@
 <title>林新凱 Kai Lin — AI Product Builder</title>
 <link rel="icon" type="image/png" href="IMG/logo/kai.png" />
 <link rel="apple-touch-icon" href="IMG/logo/kai.png" />
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#08080a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Kai Lin" />
 <meta name="description" content="林新凱 Kai Lin — AI Product Builder。跨領域橫跨設計、程式與行銷,想清楚再做、用數據驗證成果。" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -170,9 +176,12 @@ section{position:relative}
 .stack-row:last-child{border-bottom:1px solid var(--line-soft)}
 .stack-row .sg{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted);padding-top:6px}
 .chips{display:flex;flex-wrap:wrap;gap:9px}
-.chip{font-size:13.5px;font-weight:400;color:var(--ink);background:var(--glass);border:1px solid var(--line);
-  border-radius:10px;padding:8px 14px;backdrop-filter:blur(8px);transition:.25s var(--ease)}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:400;color:var(--ink);
+  background:var(--glass);border:1px solid var(--line);
+  border-radius:10px;padding:8px 13px;backdrop-filter:blur(8px);transition:.25s var(--ease)}
 .chip:hover{background:var(--glass-2);border-color:rgba(255,255,255,.2)}
+.chip:hover svg{color:var(--ink)}
+.chip svg{width:15px;height:15px;color:var(--muted);flex:none;transition:color .25s var(--ease)}
 @media(max-width:560px){.stack-row{grid-template-columns:1fr;gap:12px}}
 #education{padding:clamp(60px,11vh,130px) 0}
 .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,70px)}
@@ -197,6 +206,30 @@ section{position:relative}
 .cinfo a,.cinfo span{font-family:var(--mono);font-size:13px;color:var(--text);letter-spacing:.03em;
   display:inline-flex;gap:8px;align-items:center;transition:color .25s}
 .cinfo a:hover{color:var(--ink)}
+/* 聯絡:雙欄 + 互動表單 */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,64px);align-items:start}
+@media(max-width:820px){.contact-grid{grid-template-columns:1fr;gap:36px}}
+.contact-left .edu-label{margin-bottom:14px}
+.contact-left .h-sec{margin-bottom:16px}
+.contact-lead{color:var(--text);font-weight:300;line-height:1.85;font-size:clamp(15px,1.3vw,16.5px);
+  max-width:44ch;margin-bottom:26px}
+.contact-lead b{color:var(--ink);font-weight:500}
+.contact-left .mail{font-size:clamp(18px,2.6vw,26px);margin-bottom:20px}
+.contact-left .cinfo{margin-top:0}
+.contact-form{display:flex;flex-direction:column;gap:13px;background:var(--glass);border:1px solid var(--line);
+  border-radius:20px;padding:clamp(20px,3vw,30px);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.contact-form input,.contact-form textarea{width:100%;font-family:inherit;font-size:15px;color:var(--ink);
+  background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:15px 16px;
+  letter-spacing:-.01em;transition:.25s var(--ease)}
+.contact-form textarea{min-height:150px;resize:vertical;line-height:1.6}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:var(--muted)}
+.contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:rgba(255,255,255,.42);
+  background:rgba(255,255,255,.06);box-shadow:0 0 0 3px rgba(255,255,255,.05)}
+.contact-send{font-family:inherit;font-size:15px;font-weight:600;color:#08080a;background:#f2f2f4;border:0;
+  border-radius:12px;padding:15px;cursor:pointer;margin-top:4px;transition:.25s var(--ease)}
+.contact-send:hover{background:#fff;transform:translateY(-2px)}
+.contact-send:active{transform:translateY(0)}
+.form-note{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center;min-height:1.1em;letter-spacing:.03em}
 footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
   padding:24px 0 46px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.06em}
@@ -306,9 +339,22 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
   </section>
 
   <section id="contact" class="wrap">
-    <h2 class="h-sec rv">Let's connect</h2>
-    <a class="mail rv" data-d="1" id="mail"></a>
-    <div class="cinfo rv" data-d="2" id="cinfo"></div>
+    <div class="contact-grid">
+      <div class="contact-left rv">
+        <div class="edu-label">Contact</div>
+        <h2 class="h-sec">Get In Touch</h2>
+        <p class="contact-lead" id="contactLead"></p>
+        <a class="mail" id="mail"></a>
+        <div class="cinfo" id="cinfo"></div>
+      </div>
+      <form class="contact-form rv" data-d="1" id="contactForm" novalidate>
+        <div class="fld"><input id="cfName" type="text" placeholder="Name" autocomplete="name" required></div>
+        <div class="fld"><input id="cfEmail" type="email" placeholder="Email" autocomplete="email" required></div>
+        <div class="fld"><textarea id="cfMsg" placeholder="Your message..." required></textarea></div>
+        <button class="contact-send" type="submit">Send message</button>
+        <p class="form-note" id="formNote"></p>
+      </form>
+    </div>
     <footer id="foot"></footer>
   </section>
 </main>
@@ -360,7 +406,6 @@ const SHARED = {
   ],
   contact:{
     email:"k28552219@gmail.com",
-    phone:"0925-230-110",
     location:"桃園市中壢區",
   },
 };
@@ -468,7 +513,7 @@ const PROFILES = {
       },
       {
         title:"虛擬實境腦力激盪AI NPC", badge:"IEEE 2024 研討會", cats:["VR","AI","Research"],
-        desc:"IEEE GCCE 2024(日本九州)研討會論文。傳統腦力激盪受限於參與者既有知識而容易卡關——我設計一套把 ChatGPT AI NPC 整合進 VR 的系統框架,讓使用者用語音與 NPC 對話,即時取得新觀點、回饋與引導,提升虛擬實境腦力激盪(VB)的成效。",
+        desc:"IEEE GCCE 2024(日本九州)研討會論文。傳統腦力激盪受限於參與者既有知識而容易卡關,於是我設計一套把 ChatGPT AI NPC 整合進 VR 的系統框架,讓使用者用語音與 NPC 對話,即時取得新觀點、回饋與引導,提升虛擬實境腦力激盪(VB)的成效。",
         links:[{label:"操作影片",url:"https://youtu.be/hY4fIOQBAEU"}],
         tech:["VR","Unity","NPC","ChatGPT 4o","Whisper","Amazon Polly"],
         detail:{
@@ -522,6 +567,19 @@ const ICON = {
   ext:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>',
   chev:'<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>',
 };
+
+/* ---------- My Stack 各類別 icon ---------- */
+const SICON = {
+  ai:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6z"/></svg>',
+  code:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg>',
+  backend:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5.5" rx="7" ry="2.7"/><path d="M5 5.5v6c0 1.5 3.1 2.7 7 2.7s7-1.2 7-2.7v-6M5 11.5v6c0 1.5 3.1 2.7 7 2.7s7-1.2 7-2.7v-6"/></svg>',
+  data:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M8 16v-4M13 16V8M18 16v-7"/></svg>',
+  design: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 20l4-1L19 8a2.1 2.1 0 0 0-3-3L5 16z"/><path d="m14 6 3 3"/></svg>',
+  lang:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.3 2.3 14.7 0 17M12 3.5c-2.3 2.3-2.3 14.7 0 17"/></svg>',
+};
+const GICON = {"AI & Building":"ai","程式・開發":"code","後端・API":"backend","產品・數據":"data","設計":"design","語言":"lang"};
+const chipIcon = group => SICON[GICON[group]] || SICON.ai;
+
 const isExt = u => /^https?:/i.test(u||"");
 
 /* ---------- scroll reveal (defined early so renderers can use it) ---------- */
@@ -633,7 +691,7 @@ renderProjects("All");
 /* ---------- stack ---------- */
 document.getElementById("stackList").innerHTML = DATA.stack.map(s=>`
   <div class="stack-row rv"><div class="sg">${s.group}</div>
-    <div class="chips">${s.items.map(i=>`<span class="chip">${i}</span>`).join("")}</div></div>`).join("");
+    <div class="chips">${s.items.map(i=>`<span class="chip">${chipIcon(s.group)}<span>${i}</span></span>`).join("")}</div></div>`).join("");
 
 /* ---------- education & awards ---------- */
 const eduItem=o=>`<div class="edu-item">${o.when?`<div class="edu-when">${o.when}</div>`:""}<div class="edu-what">${o.what}</div></div>`;
@@ -677,9 +735,35 @@ function openProj(p){
 const C=DATA.contact;
 const mail=document.getElementById("mail");
 mail.href=`mailto:${C.email}`; mail.innerHTML=`${C.email} ${ICON.ext}`;
-document.getElementById("cinfo").innerHTML =
-  `<a href="tel:${C.phone.replace(/[^0-9+]/g,'')}">📱 ${C.phone}</a>`+
-  `<span>📍 ${C.location}</span>`;
+document.getElementById("cinfo").innerHTML = `<span>📍 ${C.location}</span>`;
+document.getElementById("contactLead").innerHTML =
+  "保持好奇、<b>持續學習</b>,把每個專案都當成一次新的實驗。<br>正在尋找值得投入的項目與夥伴,歡迎一起聊聊。";
+/* 聯絡表單:送到 Cloudflare Worker(/api/contact),由後端寄信到我的信箱 */
+(function(){
+  const f=document.getElementById("contactForm"); if(!f) return;
+  const note=document.getElementById("formNote");
+  const btn=f.querySelector(".contact-send");
+  f.addEventListener("submit",async ev=>{
+    ev.preventDefault();
+    const name=document.getElementById("cfName").value.trim();
+    const email=document.getElementById("cfEmail").value.trim();
+    const message=document.getElementById("cfMsg").value.trim();
+    if(!name||!email||!message){ note.textContent="請填寫姓名、Email 與訊息。"; return; }
+    const label=btn.textContent; btn.disabled=true; btn.textContent="傳送中…"; note.textContent="";
+    try{
+      const r=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({name,email,message})});
+      const d=await r.json().catch(()=>({}));
+      if(r.ok && d.ok){ note.textContent="訊息已送出,感謝你的來信 ✓"; f.reset(); }
+      else{ note.textContent="送出失敗,請稍後再試,或直接來信 "+C.email; }
+    }catch(_){ note.textContent="送出失敗,請稍後再試,或直接來信 "+C.email; }
+    finally{ btn.disabled=false; btn.textContent=label; }
+  });
+})();
+/* PWA:註冊 Service Worker(可加到手機桌面、離線可開) */
+if("serviceWorker" in navigator){
+  addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));
+}
 document.getElementById("foot").innerHTML =
   `<span>© ${new Date().getFullYear()} 林新凱 KAI LIN</span><span>桃園 · 台灣</span><span>BUILT WITH AI · rev 0604</span>`;
 
