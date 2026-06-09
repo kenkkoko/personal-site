@@ -84,14 +84,13 @@ section{position:relative}
 #home .zh{margin-top:10px;color:var(--muted);font-family:var(--mono);font-size:13px;letter-spacing:.14em}
 .scroll-cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:11px;cursor:pointer}
-.scroll-cue .sc-cap{font-family:var(--mono);font-size:10px;letter-spacing:.26em;color:var(--faint);
-  transition:color .3s var(--ease)}
-.scroll-cue:hover .sc-cap{color:var(--text)}
-/* 點與線:呼應背景低多邊形 mesh — 一條邊線、線上有菱形頂點,光點沿線墜落淡出 */
+/* 點與線:呼應背景低多邊形 mesh — 一條邊線、線上有菱形頂點(由上而下漸大),光點沿線墜落淡出 */
 .sc-line{position:relative;width:1px;height:62px;background:linear-gradient(rgba(255,255,255,.18),transparent)}
-.sc-node{position:absolute;left:50%;width:4px;height:4px;margin-left:-2px;background:var(--faint);
-  transform:translateY(-50%) rotate(45deg);transition:background .3s var(--ease)}
-.sc-node.n1{top:0}.sc-node.n2{top:50%}.sc-node.n3{top:100%}
+.sc-node{position:absolute;left:50%;background:var(--faint);
+  transform:translate(-50%,-50%) rotate(45deg);transition:background .3s var(--ease)}
+.sc-node.n1{top:0;width:3px;height:3px}
+.sc-node.n2{top:50%;width:4px;height:4px}
+.sc-node.n3{top:100%;width:5.5px;height:5.5px}
 .scroll-cue:hover .sc-node{background:var(--muted)}
 .sc-spark{position:absolute;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;
   background:var(--ink);box-shadow:0 0 7px rgba(255,255,255,.65);
@@ -314,7 +313,6 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
     <p class="sub rv" data-d="1" id="sub"></p>
     <p class="zh rv" data-d="2" id="zh"></p>
     <a class="scroll-cue" href="#about" aria-label="向下捲動到 About">
-      <span class="sc-cap">SCROLL</span>
       <span class="sc-line">
         <i class="sc-node n1"></i><i class="sc-node n2"></i><i class="sc-node n3"></i>
         <i class="sc-spark"></i><i class="sc-spark d2"></i>
