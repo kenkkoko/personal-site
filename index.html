@@ -430,14 +430,29 @@ const PROFILES = {
       {
         title:"AI 協作 × 創造力研究", badge:"碩士論文", cats:["AI","Research"],
         desc:"設計並執行 63 人對照實驗,建立量化指標(SemDis 語意距離 + 6 位專家評分),驗證三種創作模式成效差異。總結出「AI 抽象發散 → 人類篩選 → AI 協作精練」可複用流程並導入日常工作。",
-        links:[],
+        links:[{label:"論文 PDF",url:"IMG/Master/MasterArticle.pdf"}],
         tech:["實驗設計","語意距離","量化分析","假設驗證"],
+        detail:{
+          cover:"IMG/Master/Master_workflow.png",
+          text:"<p><b>研究主題</b> — 探討不同 AI 協作模式對人類創造力的影響。</p>"+
+               "<p><b>實驗設計</b> — 以 MRC 心理語言資料庫設計字詞聯想測驗(WAT),將 63 名受試者分為人類組、AI 協作組、生成式 AI 組三種創作模式。</p>"+
+               "<p><b>創意量化</b> — 結合 SemDis 語義距離分析、6 位專家共識評分與流暢性(回答數量)三項指標,進行數據分析與視覺化。</p>"+
+               "<p><b>成果</b> — 總結出「AI 抽象發散 → 人類篩選 → AI 協作精練」的可複用流程並導入日常工作。完整內容見論文 PDF。</p>",
+        },
       },
       {
         title:"虛擬實境腦力激盪AI NPC", badge:"IEEE 2024 研討會", cats:["VR","AI","Research"],
         desc:"整合 ChatGPT 於虛擬實境腦力激盪 NPC 之應用。發表於 IEEE GCCE 2024(日本九州)研討會。",
         links:[{label:"操作影片",url:"https://youtu.be/hY4fIOQBAEU"}],
         tech:["ChatGPT","VR","NPC","Unity"],
+        detail:{
+          cover:"IMG/VR_chatgpt/workflow.png",
+          text:"<p><b>應用</b> — 在虛擬實境中打造可即時對話的 AI NPC,協助使用者進行腦力激盪。</p>"+
+               "<p><b>技術流程</b> — 使用者語音經 OpenAI Whisper 轉文字,送入 ChatGPT 4o 生成回應,再由 Amazon Polly 文字轉語音回饋給使用者,形成完整的語音互動迴圈。</p>"+
+               "<p><b>操作</b> — 在 VR 場景中按鈕輸入語音、總結重點、提供範例。</p>"+
+               "<p><b>發表</b> — IEEE GCCE 2024(日本九州)研討會。</p>",
+          images:["IMG/VR_chatgpt/workflow1.png"],
+        },
       },
     ],
     stack: [
