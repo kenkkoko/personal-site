@@ -306,7 +306,7 @@ footer{margin-top:clamp(50px,8vh,90px);border-top:1px solid var(--line-soft);
   <section id="about" class="wrap">
     <h2 class="h-sec rv">About Me</h2>
     <p class="rv" data-d="1" id="aboutText"></p>
-    <div class="rv" data-d="2"><span class="hl-card">多益 TOEIC <b>735</b></span></div>
+    <div class="rv" data-d="2" id="langCard"></div>
     <div class="socials rv" data-d="3" id="socials"></div>
   </section>
 
@@ -425,6 +425,7 @@ const PROFILES = {
     },
     about:
       "跨領域的產品實作者,橫跨設計、程式與行銷。我習慣花 <b>八成時間</b> 定義目標、釐清問題與設計流程,<b>兩成時間</b> 實作,目標導向,以數據驗證成果。從 3D 建模、影片到前後端,我能獨立把一個想法從概念帶到上線,也樂於分享跑通後的工作流程。我同時是財經產品的 <b>重度使用者</b> 與 <b>打造者</b>:自己經營交易分析論壇,用 TWSE 籌碼資料與鏈上數據寫台股與加密貨幣分析;也串接多方金融 API、整合多項指標,並一人打造了 AI 投資輔助 Web App「<a class=\"inline-link\" href=\"https://dca.hellokai07.com/\" target=\"_blank\" rel=\"noopener\">Smart DCA</a>」。",
+    langCard:"多益 TOEIC <b>735</b>",   // About 下方的英文小卡片(此版本顯示;marketing 版不放)
     experience: [
       {
         role:"遊戲美術外包", org:"自由接案", loc:"Remote", period:"2026 — 進行中", open:true,
@@ -439,6 +440,7 @@ const PROFILES = {
       },
       {
         role:"AI 影片工作流程教學", org:"中壢地政事務所", loc:"桃園", period:"2026",
+        links:[{label:"教學簡報",url:"https://app.notion.com/p/AI-379ebfd1088880b89706e5f5144e4bc5"}],
         blocks:[
           {h:"影音企劃與製作", items:[
             "為事務所企劃並製作公務宣導影片(腳本、AI 生成、剪輯)",
@@ -538,25 +540,14 @@ const PROFILES = {
     ],
   },
 
-  /* ═══════════ 要新增版本(行銷 / 業務 / PM)═══════════
-     複製上面整個 builder:{ … } 區塊,改名成 marketing / bd / pm,
-     再改 hero、about、experience、projects、stack 的內容即可。
-     下面是模板(填好再用,或整段刪掉):
-
-  marketing: {
-    hero:{ hi:"Hi, I'm Kai", sub:"Product Marketing · Growth", zh:"林新凱 — 用數據說故事、驅動成長" },
-    about:"(行銷版的自我介紹…)",
-    experience:[ …同 builder 格式… ],
-    projectFilters:["All","Growth","Content","Product"],
-    projects:[ … ],
-    stack:[ … ],
-  },
-  */
 };
 
-/* 預設顯示哪個版本;也可用網址 ?v=marketing 切換(方便針對不同職缺寄不同連結) */
+/* 版本選擇順序:① 網址參數 ?v=xxx(測試用)→ ② 子網域第一段 → ③ 預設 builder
+   例:mkt.hellokai07.com → mkt 版;pm.hellokai07.com → pm 版;me./www./apex → builder */
 const DEFAULT_PROFILE = "builder";
-const DATA = Object.assign({}, SHARED, PROFILES[new URLSearchParams(location.search).get("v")] || PROFILES[DEFAULT_PROFILE]);
+const SUBDOMAIN = location.hostname.split(".")[0];
+const PROFILE_KEY = new URLSearchParams(location.search).get("v") || SUBDOMAIN;
+const DATA = Object.assign({}, SHARED, PROFILES[PROFILE_KEY] || PROFILES[DEFAULT_PROFILE]);
 /* ════════════════════ ▲▲▲  DATA 結束。下面是程式,通常不用動。 ▲▲▲ ════════════════════ */
 
 
@@ -578,8 +569,10 @@ const SICON = {
   data:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M8 16v-4M13 16V8M18 16v-7"/></svg>',
   design: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 20l4-1L19 8a2.1 2.1 0 0 0-3-3L5 16z"/><path d="m14 6 3 3"/></svg>',
   lang:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.3 2.3 2.3 14.7 0 17M12 3.5c-2.3 2.3-2.3 14.7 0 17"/></svg>',
+  mkt:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l4 3V7L6 10H4a1 1 0 0 0-1 1z"/><path d="M14.5 8a4 4 0 0 1 0 8"/></svg>',
 };
-const GICON = {"AI & Building":"ai","程式・開發":"code","後端・API":"backend","產品・數據":"data","設計":"design","語言":"lang"};
+const GICON = {"AI & Building":"ai","程式・開發":"code","後端・API":"backend","產品・數據":"data","設計":"design","語言":"lang",
+  "行銷・內容":"mkt","AI 應用":"ai","設計・影音":"design","數據・研究":"data","程式・建置":"code"};
 const chipIcon = group => SICON[GICON[group]] || SICON.ai;
 
 const isExt = u => /^https?:/i.test(u||"");
@@ -616,6 +609,8 @@ document.getElementById("zh").textContent  = DATA.hero.zh;
 
 /* ---------- about ---------- */
 document.getElementById("aboutText").innerHTML = DATA.about;
+/* 頂部「英文/多益」卡片:只有定義 langCard 的版本才顯示(builder 有、marketing 無) */
+document.getElementById("langCard").innerHTML = DATA.langCard ? `<span class="hl-card">${DATA.langCard}</span>` : "";
 {
   const L=DATA.links, S=[];
   if(L.github)   S.push(`<a href="${L.github}"   target="_blank" rel="noopener" aria-label="GitHub">${ICON.github}</a>`);
@@ -714,12 +709,14 @@ function cover(d){ return (d&&d.cover)?`<img class="modal-cover" src="${d.cover}
 function openExp(e){
   const d=e.detail||{};
   const text = d.text || e.blocks.map(b=>`<p><b>${b.h}</b><br>${b.items.join("<br>")}</p>`).join("");
+  const links=(e.links||[]).map(l=>
+    `<a class="plink" href="${l.url}" target="_blank" rel="noopener">${l.label}${ICON.ext}</a>`).join("");
   openModal(`<div class="modal-meta">${e.org}${e.loc?' ｜ '+e.loc:''} · ${e.period}</div>
-    <h3>${e.role}</h3>
-    ${cover(d)}
+    <div class="modal-head"><h3>${e.role}</h3>${links?`<div class="modal-links">${links}</div>`:""}</div>
     <div class="modal-body">${text}</div>
-    ${imgGrid(d.images)}
-    ${tagRow(e.tech)}`);
+    ${tagRow(e.tech)}
+    ${cover(d)}
+    ${imgGrid(d.images)}`);
 }
 function openProj(p){
   const d=p.detail||{};
