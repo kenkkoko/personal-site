@@ -46,7 +46,9 @@ svg{display:block}
    canvas 顯示交給 CSS 100%,只在 resize 後更新解析度。 */
 #poly{position:fixed;top:0;left:0;width:100%;height:100vh;height:100lvh;z-index:-2;background:var(--bg)}
 #poly canvas{display:block;width:100%;height:100%}
-#vign{position:fixed;top:0;left:0;width:100%;height:100vh;height:100lvh;z-index:-1;pointer-events:none;
+/* 暗角單獨用 dvh(跟著目前可視高度),暗底邊永遠貼齊可視底部、不隨網址列收合而滑動;
+   下方即使露出也只是波浪(#poly 仍 lvh 全蓋),不會有黑帶或破圖 */
+#vign{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:-1;pointer-events:none;
   background:radial-gradient(125% 95% at 42% 44%,transparent 30%,rgba(8,8,10,.4) 74%,rgba(8,8,10,.78) 100%),
     linear-gradient(rgba(8,8,10,.12),rgba(8,8,10,.12))}
 
