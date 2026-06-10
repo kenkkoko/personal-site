@@ -1,9 +1,9 @@
 /* Kai Lin 個人網站 — Service Worker(network-first,離線時退回快取) */
-const CACHE = "kai-site-v3";
+const CACHE = "kai-site-v4";
 const SHELL = [
   "/",
   "/index.html",
-  "/IMG/logo/kai.png",
+  "/IMG/logo/kai-mark.png",
   "/IMG/logo/icon-192.png",
   "/IMG/logo/icon-512.png"
 ];
