@@ -804,11 +804,33 @@ addEventListener("scroll",()=>{
 
   /* 用 #poly(fixed; inset:0)的實際尺寸,而非會隨手機網址列收合而變動的
      window.innerHeight。#poly 為 100lvh,clientHeight 即大視窗高度 */
+  const vign = document.getElementById("vign");
+  const VV = window.visualViewport;
   const vsize = () => [host.clientWidth || innerWidth, host.clientHeight || innerHeight];
   let [VW, VH] = vsize();
 
+  /* 暗角(#vign)用 visualViewport 精準貼齊「目前可視範圍」,
+     不再隨網址列收合而讓暗邊上下移動 */
+  function syncVign(){
+    if(!VV) return;
+    vign.style.width  = VV.width + "px";
+    vign.style.height = VV.height + "px";
+    vign.style.transform = `translate(${VV.offsetLeft}px, ${VV.offsetTop}px)`;
+  }
+  syncVign();
+
+  /* 依畫面寬高比調整構圖:越直式,把波浪近緣往上帶,落在可視範圍內 */
+  let lookY = 1.0, camBaseY = 3.6;
+  function compose(){
+    const a = VW / VH;                                   // 越小=越直
+    const t = Math.min(Math.max((a - 0.5)/(1.2 - 0.5), 0), 1);  // 0=很直,1=橫向
+    lookY    = -1.8 + t * 2.8;                           // 直式 -1.8 → 橫式 1.0
+    camBaseY =  2.1 + t * 1.5;                           // 直式 2.1 → 橫式 3.6
+  }
+  compose();
+
   const camera = new THREE.PerspectiveCamera(62, VW/VH, 0.1, 120);
-  camera.position.set(0, 3.6, 13);
+  camera.position.set(0, camBaseY, 13);
 
   const renderer = new THREE.WebGLRenderer({antialias:true, powerPreference:"high-performance"});
   renderer.setPixelRatio(Math.min(devicePixelRatio||1, 2));
@@ -857,21 +879,22 @@ addEventListener("scroll",()=>{
     const t=(now-t0)*0.001;
     if(!reduce) wave(t);
     cur.x += (mouse.x-cur.x)*0.045; cur.y += (mouse.y-cur.y)*0.045;   // 平滑跟隨
-    camera.position.x = cur.x*4; camera.position.y = 3.6 - cur.y*2;
-    camera.lookAt(0, 1.0, -6);
+    camera.position.x = cur.x*4; camera.position.y = camBaseY - cur.y*2;
+    camera.lookAt(0, lookY, -6);
     key.position.x = 8 + cur.x*7; key.position.z = 5 - cur.y*4;       // 光源也隨滑鼠
     renderer.render(scene,camera); raf=requestAnimationFrame(frame);
   }
-  if(reduce){ wave(0); camera.lookAt(0,1.0,-6); renderer.render(scene,camera); }
+  if(reduce){ wave(0); camera.lookAt(0,lookY,-6); renderer.render(scene,camera); }
   else raf=requestAnimationFrame(frame);
 
   function resize(){
     [VW, VH] = vsize();
+    compose();
     camera.aspect = VW/VH; camera.updateProjectionMatrix();
     renderer.setSize(VW, VH, false);
-    if(reduce){ wave(0); camera.lookAt(0,1.0,-6); renderer.render(scene,camera); }
+    if(reduce){ wave(0); camera.lookAt(0,lookY,-6); renderer.render(scene,camera); }
   }
-  let rt; const onResize = ()=>{ clearTimeout(rt); rt=setTimeout(resize,120); };
+  let rt; const onResize = ()=>{ syncVign(); clearTimeout(rt); rt=setTimeout(resize,120); };
   addEventListener("resize", onResize);
   addEventListener("orientationchange", onResize);
   if(window.visualViewport){
