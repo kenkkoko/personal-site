@@ -300,6 +300,138 @@ img.zoomable{cursor:zoom-in}
   #about,#experience,#projects,#stack,#education,#contact{
     padding-left:clamp(20px,5vw,40px);padding-right:clamp(20px,5vw,40px)}
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   LIQUID GLASS UI ─ 外觀升級層(只覆蓋視覺;內容與排版結構不變)
+   概念:每塊玻璃 = 高光漸層底 + 高飽和背板模糊(玻璃厚度)
+        + 內緣折射環(光線在玻璃邊緣彎折) + 游標光斑(光在表面游走)
+   ═══════════════════════════════════════════════════════════════════ */
+:root{--spring:cubic-bezier(.32,1.4,.5,1)}
+
+/* ── 玻璃核心:導覽 / 卡片 / 表單 / 彈窗 ── */
+nav,.exp-card,.card,.contact-form,.modal-panel{
+  background:
+    radial-gradient(140% 100% at 16% -4%,rgba(255,255,255,.075),transparent 46%),
+    radial-gradient(120% 120% at 88% 108%,rgba(120,140,210,.05),transparent 52%),
+    linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.012) 38%,rgba(255,255,255,.042));
+  border-color:rgba(255,255,255,.12);
+  backdrop-filter:blur(24px) saturate(170%) brightness(1.05);
+  -webkit-backdrop-filter:blur(24px) saturate(170%) brightness(1.05);
+  box-shadow:
+    inset 1.4px 1.4px 0 -.6px rgba(255,255,255,.32),
+    inset -1px -1px 0 -.5px rgba(255,255,255,.10),
+    inset 0 0 30px rgba(255,255,255,.025),
+    0 20px 50px rgba(0,0,0,.45);
+}
+.exp-card,.card,.contact-form{position:relative;isolation:isolate}
+nav{background:
+    radial-gradient(140% 100% at 16% -4%,rgba(255,255,255,.08),transparent 46%),
+    linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015) 40%,rgba(255,255,255,.04)),
+    rgba(13,13,17,.55)}
+.modal-panel{background:
+    radial-gradient(140% 90% at 14% -4%,rgba(255,255,255,.07),transparent 46%),
+    linear-gradient(165deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 40%,rgba(255,255,255,.035)),
+    rgba(14,14,19,.72)}
+
+/* ── 內緣折射環:沿內緣一圈把背景再模糊增亮,模擬玻璃邊緣的光線彎折 ── */
+nav::before,.exp-card::before,.card::before,.contact-form::before,.modal-panel::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  padding:9px;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+          mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  backdrop-filter:blur(9px) brightness(1.55) saturate(1.5);
+  -webkit-backdrop-filter:blur(9px) brightness(1.55) saturate(1.5);
+  opacity:.45;transition:opacity .5s var(--ease);
+}
+nav::before{padding:5px}
+.exp-card:hover::before,.card:hover::before,.contact-form:focus-within::before{opacity:.85}
+
+/* ── 游標光斑:光點跟著滑鼠在玻璃面上游走(JS 餵 --mx/--my) ── */
+.exp-card::after,.card::after,.contact-form::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,-30%),rgba(255,255,255,.11),transparent 62%);
+  opacity:0;transition:opacity .5s var(--ease);
+}
+.exp-card:hover::after,.card:hover::after,.contact-form:hover::after{opacity:1}
+
+/* ── hover 強化(覆蓋舊的扁平 hover 底色) ── */
+.card:hover{
+  background:
+    radial-gradient(140% 100% at 16% -4%,rgba(255,255,255,.11),transparent 48%),
+    radial-gradient(120% 120% at 88% 108%,rgba(120,140,210,.07),transparent 52%),
+    linear-gradient(160deg,rgba(255,255,255,.085),rgba(255,255,255,.025) 38%,rgba(255,255,255,.06));
+  border-color:rgba(255,255,255,.22);transform:translateY(-6px);
+  box-shadow:
+    inset 1.4px 1.4px 0 -.6px rgba(255,255,255,.4),
+    inset -1px -1px 0 -.5px rgba(255,255,255,.12),
+    0 30px 70px rgba(0,0,0,.55)}
+.exp-card:hover{border-color:rgba(255,255,255,.2)}
+@media(hover:hover) and (pointer:fine){
+  #projGrid .card{transition:background .35s var(--ease),border-color .35s var(--ease),
+    box-shadow .35s var(--ease),transform .16s ease-out;will-change:transform}
+}
+
+/* ── 小元件玻璃(膠囊 / 按鈕 / 社群 icon) ── */
+.hl-card,.socials a,.chip,.filters button,.plink,.exp-more,.modal-close,.lb-btn{
+  background:linear-gradient(150deg,rgba(255,255,255,.075),rgba(255,255,255,.022));
+  box-shadow:inset 1px 1px 0 -.5px rgba(255,255,255,.25),inset -.5px -.5px 0 rgba(255,255,255,.05);
+}
+.hl-card:hover,.socials a:hover,.chip:hover,.filters button:not(.on):hover,.modal-close:hover{
+  background:linear-gradient(150deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
+  border-color:rgba(255,255,255,.24)}
+.chip:hover{transform:translateY(-2px)}
+.filters button.on{background:#f2f2f4;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.contact-form input,.contact-form textarea{
+  background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
+  box-shadow:inset 1px 1px 0 -.5px rgba(255,255,255,.16)}
+
+/* ── 導覽液態滑塊:active 膠囊在選項之間「流」過去 ── */
+#navGlider{position:absolute;top:7px;bottom:7px;left:0;width:0;border-radius:999px;z-index:-1;opacity:0;
+  background:linear-gradient(150deg,rgba(255,255,255,.17),rgba(255,255,255,.06));
+  box-shadow:inset 1px 1px 0 -.5px rgba(255,255,255,.35),inset -1px -1px 0 -.5px rgba(255,255,255,.08),
+    0 4px 16px rgba(0,0,0,.35);
+  transition:left .55s var(--spring),width .55s var(--spring),opacity .3s var(--ease)}
+nav.has-glider #navGlider{opacity:1}
+nav.has-glider a.active{background:transparent}
+@media(max-width:680px){#navGlider{top:5px;bottom:5px}}
+
+/* ── Hero 標題:液態光澤緩慢掃過 ── */
+@supports(-webkit-background-clip:text){
+  #home .hi{background:linear-gradient(105deg,#fff 46.5%,rgba(255,255,255,.55) 50%,#fff 53.5%) 0 0/300% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:heroSheen 9s ease-in-out 1.2s infinite}
+}
+@keyframes heroSheen{0%{background-position:145% 0}26%,100%{background-position:-145% 0}}
+
+/* ── 捲動進度條(頂端細光條) ── */
+#sprog{position:fixed;top:0;left:0;width:100%;height:2px;z-index:240;pointer-events:none;
+  transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,rgba(255,255,255,.22),rgba(255,255,255,.7));opacity:.55}
+
+/* ── 全頁細微噪點:統一質感、消除漸層色帶 ── */
+body::after{content:"";position:fixed;inset:0;z-index:2000;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px 160px}
+
+/* ── 彈窗:更深的玻璃景深 + 彈性入場 ── */
+.modal-bg{backdrop-filter:blur(12px) saturate(140%);-webkit-backdrop-filter:blur(12px) saturate(140%)}
+.modal-panel{animation:pop .55s var(--spring)}
+
+/* ── 行動裝置 / 觸控:折射環改用漸層(省 GPU),關閉噪點 ── */
+@media (hover:none),(max-width:760px){
+  nav::before,.exp-card::before,.card::before,.contact-form::before,.modal-panel::before{
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+    background:linear-gradient(140deg,rgba(255,255,255,.09),transparent 34%,transparent 66%,rgba(255,255,255,.05));
+    opacity:.55}
+  nav,.exp-card,.card,.contact-form,.modal-panel{
+    backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%)}
+  body::after{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  #home .hi{animation:none;background:none;color:var(--ink);-webkit-background-clip:border-box}
+  #navGlider{transition:opacity .3s var(--ease)}
+}
 </style>
 </head>
 <body>
@@ -824,6 +956,7 @@ const secs=DATA.nav.map(n=>document.querySelector(n.href)).filter(Boolean);
 const spy=new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){
     navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+e.target.id));
+    moveGlider();
   }});
 },{rootMargin:"-45% 0px -50% 0px"});
 secs.forEach(s=>spy.observe(s));
@@ -833,8 +966,61 @@ addEventListener("scroll",()=>{
   if(innerHeight+Math.ceil(scrollY) >= document.documentElement.scrollHeight-2 && secs.length){
     const last="#"+secs[secs.length-1].id;
     navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")===last));
+    moveGlider();
   }
 },{passive:true});
+
+/* ════════════════ LIQUID GLASS UI 互動(視覺層;不動內容) ════════════════ */
+/* 捲動進度條:頂端細光條隨閱讀進度伸長 */
+const sprog=document.createElement("div"); sprog.id="sprog"; document.body.appendChild(sprog);
+addEventListener("scroll",()=>{
+  const h=document.documentElement;
+  sprog.style.transform="scaleX("+Math.min(1,scrollY/((h.scrollHeight-innerHeight)||1))+")";
+},{passive:true});
+
+/* 導覽液態滑塊:active 膠囊在選項之間滑過去 */
+const navBox=document.getElementById("nav");
+const glider=document.createElement("span"); glider.id="navGlider"; navBox.prepend(glider);
+function moveGlider(){
+  const a=navBox.querySelector("a.active");
+  if(!a){ navBox.classList.remove("has-glider"); return; }
+  const nr=navBox.getBoundingClientRect(), ar=a.getBoundingClientRect();
+  if(!ar.width) return;
+  glider.style.left=(ar.left-nr.left)+"px"; glider.style.width=ar.width+"px";
+  navBox.classList.add("has-glider");
+}
+addEventListener("resize",moveGlider);
+addEventListener("load",moveGlider);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(moveGlider);
+
+/* 游標光斑 + 專案卡片微傾斜(桌機滑鼠限定) */
+if(matchMedia("(hover:hover) and (pointer:fine)").matches){
+  document.addEventListener("pointermove",e=>{
+    const el=e.target.closest && e.target.closest(".card,.exp-card,.contact-form");
+    if(!el) return;
+    const r=el.getBoundingClientRect();
+    el.style.setProperty("--mx",(e.clientX-r.left)+"px");
+    el.style.setProperty("--my",(e.clientY-r.top)+"px");
+  },{passive:true});
+
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
+    const pg=document.getElementById("projGrid");
+    let tiltRaf=null;
+    pg.addEventListener("pointermove",e=>{
+      const c=e.target.closest(".card"); if(!c||tiltRaf) return;
+      tiltRaf=requestAnimationFrame(()=>{
+        tiltRaf=null;
+        const r=c.getBoundingClientRect();
+        const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
+        c.style.transform="translateY(-6px) perspective(900px) rotateX("+(-py*4).toFixed(2)+"deg) rotateY("+(px*5).toFixed(2)+"deg)";
+      });
+    });
+    pg.addEventListener("pointerout",e=>{
+      const c=e.target.closest(".card");
+      if(c && !c.contains(e.relatedTarget)) c.style.transform="";
+    });
+  }
+}
 
 /* ---------- 互動式 3D faceted 平面背景 (Three.js,參考 ciangoon.dev 風格) ----------
    一整片由大量三角面組成的平面,表面像波浪起伏;flatShading 讓每個三角面平整、
@@ -862,6 +1048,9 @@ addEventListener("scroll",()=>{
      網址列開合時 canvas 仍隨 #poly(dvh)填滿,只有解析度於 resize 後更新 */
   renderer.setSize(VW, VH, false);
   renderer.setClearColor(BG, 1);
+  /* ACES 電影級色調映射:亮部更柔、暗部層次更深,三角面折射感更高級 */
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.12;
   host.appendChild(renderer.domElement);
 
   // 大量三角面的平面:非索引化 → 每個三角面有獨立法線,呈現清晰的 faceted 折射
@@ -885,15 +1074,31 @@ addEventListener("scroll",()=>{
 
   const pos=geo.attributes.position, base=Float32Array.from(pos.array);
   const mouse={x:0,y:0}, cur={x:0,y:0};
-  addEventListener("pointermove", e=>{ mouse.x=(e.clientX/innerWidth)*2-1; mouse.y=(e.clientY/innerHeight)*2-1; }, {passive:true});
+  /* 游標漣漪:把滑鼠投影到波浪平面上,表面會朝游標隆起並泛起漣漪(概念不變,互動更直接) */
+  const ray=new THREE.Raycaster(), ndc=new THREE.Vector2(),
+        hitPlane=new THREE.Plane(new THREE.Vector3(0,1,0), 1.2), hit=new THREE.Vector3();
+  const ptr={x:0,z:0,k:0,tx:0,tz:0,tk:0};                  // k = 漣漪強度(平滑進出)
+  addEventListener("pointermove", e=>{
+    mouse.x=(e.clientX/innerWidth)*2-1; mouse.y=(e.clientY/innerHeight)*2-1;
+    ndc.set(mouse.x, -mouse.y); ray.setFromCamera(ndc, camera);
+    if(ray.ray.intersectPlane(hitPlane, hit)){ ptr.tx=hit.x; ptr.tz=hit.z; ptr.tk=1; }
+  }, {passive:true});
+  addEventListener("blur",()=>{ ptr.tk=0; });
+  document.documentElement.addEventListener("pointerleave",()=>{ ptr.tk=0; });
 
   function wave(t){
+    const px=ptr.x, pz=ptr.z, pk=ptr.k, rip=pk>0.02;
     for(let i=0;i<pos.count;i++){
       const ix=i*3, x=base[ix], z=base[ix+2];
-      pos.array[ix+1] = base[ix+1]
+      let y = base[ix+1]
         + Math.sin(x*0.33 + t*0.9)*0.70
         + Math.cos(z*0.29 + t*0.65)*0.70
         + Math.sin((x*0.6+z*0.4)*0.5 + t*0.5)*0.35;
+      if(rip){
+        const dx=x-px, dz=z-pz, d2=dx*dx+dz*dz;
+        if(d2<170) y += pk*Math.exp(-d2*0.055)*(0.55 + 0.75*Math.sin(t*2.4 - Math.sqrt(d2)*1.1));
+      }
+      pos.array[ix+1]=y;
     }
     pos.needsUpdate=true; geo.computeVertexNormals();      // 每面重算法線 → 折射隨波動變化
   }
@@ -903,6 +1108,7 @@ addEventListener("scroll",()=>{
     const t=(now-t0)*0.001;
     if(!reduce) wave(t);
     cur.x += (mouse.x-cur.x)*0.045; cur.y += (mouse.y-cur.y)*0.045;   // 平滑跟隨
+    ptr.x += (ptr.tx-ptr.x)*0.07;  ptr.z += (ptr.tz-ptr.z)*0.07;  ptr.k += (ptr.tk-ptr.k)*0.05;  // 漣漪平滑跟隨
     camera.position.x = cur.x*4; camera.position.y = 3.6 - cur.y*2;
     camera.lookAt(0, 1.0, -6);
     key.position.x = 8 + cur.x*7; key.position.z = 5 - cur.y*4;       // 光源也隨滑鼠
