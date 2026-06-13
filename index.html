@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>林新凱 Kai Lin — AI Product Builder</title>
+<title>KAI</title>
 <link rel="icon" type="image/png" href="IMG/logo/kai-mark.png" />
 <link rel="apple-touch-icon" href="IMG/logo/kai-mark.png" />
 <link rel="manifest" href="/manifest.json" />
@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Kai Lin" />
+<meta name="apple-mobile-web-app-title" content="KAI" />
 <meta name="description" content="林新凱 Kai Lin — AI Product Builder。跨領域橫跨設計、程式與行銷,想清楚再做、用數據驗證成果。" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -700,7 +700,7 @@ function projCard(p){
     `<a class="plink" href="${l.url}" target="_blank" rel="noopener">${l.label}${ICON.ext}</a>`
   ).join("");
   const tags=(p.tech||[]).map(t=>`<span class="tag">${t}</span>`).join("");
-  const badge = p.badge ? `<span class="badge${/Live/i.test(p.badge)?'':' ghost'}">${p.badge}</span>` : "";
+  const badge = p.badge ? `<span class="badge${/Live|Web ?App/i.test(p.badge)?'':' ghost'}">${p.badge}</span>` : "";
   return `<article class="card rv" data-cats="${(p.cats||[]).join(',')}">
     <div class="card-top"><h3>${p.title}</h3>${badge}</div>
     <p>${p.desc}</p>
