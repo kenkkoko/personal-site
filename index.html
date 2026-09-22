@@ -319,6 +319,17 @@ img.zoomable{cursor:zoom-in}
 .about-row .hl-card{margin-top:0}
 .about-row .socials{margin-top:0}
 .about-row #langCard:empty{display:none}
+
+/* ── PM portfolio banner ── */
+.pm-link{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 28px;padding:22px 26px;
+  border-radius:16px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(120deg,rgba(240,138,108,.14),rgba(143,184,255,.08));
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:.35s var(--ease)}
+.pm-link:hover{border-color:rgba(255,255,255,.3);transform:translateY(-3px)}
+.pm-link span{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;color:#f08a6c}
+.pm-link h3{font-weight:700;font-size:21px;letter-spacing:-.02em;margin:4px 0 2px;color:var(--ink)}
+.pm-link p{color:var(--text);font-weight:300;font-size:14.5px;margin:0}
+.pm-link .go{font-size:13px;font-weight:500;white-space:nowrap;padding:9px 15px;border-radius:10px;background:#f2f2f4;color:#08080a}
+@media(max-width:600px){.pm-link{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
@@ -353,6 +364,10 @@ img.zoomable{cursor:zoom-in}
 
   <section id="projects" class="wrap">
     <h2 class="h-sec rv">Personal Projects</h2>
+    <a class="pm-link rv" data-d="1" href="https://pm.hellokai07.com" target="_blank" rel="noopener">
+      <div><span>PROJECT PORTFOLIO</span><h3>專案作品集</h3><p>從規劃、分工到交付：每個專案的時間軸、遇到的問題與解法</p></div>
+      <div class="go">看作品集 →</div>
+    </a>
     <div class="filters rv" data-d="1" id="filters"></div>
     <div class="grid" id="projGrid"></div>
   </section>
@@ -547,13 +562,13 @@ const PROFILES = {
       },
       {
         title:"AI 協作 × 創造力研究", badge:"碩士論文", cats:["AI","Research"],
-        desc:"碩士論文。同一項創意發想任務,由人類獨力完成、與 AI 協作、或全交給生成式 AI,成效有何差異?設計 63 人對照實驗,以語意距離、專家評分與流暢性量化創造力,提出依任務抽象程度選擇發想模式的策略。",
+        desc:"碩士論文。同一項創意發想任務,由人類獨力完成、與 AI 協作、或全交給生成式 AI,成效有何差異?設計三組對照實驗（42 名受試者＋21 次 AI 對話）,以語意距離、專家評分與流暢性量化創造力,提出依任務抽象程度選擇發想模式的策略。",
         links:[{label:"論文 PDF",url:"IMG/Master/MasterArticle.pdf"}],
         tech:["實驗設計","SemDis 語意距離","混合效應模型","量化分析","假設驗證"],
         detail:{
           cover:"IMG/Master/Master_workflow.png",
           text:"<p><b>目標與問題</b> — 面對同一項創意發想任務,由人類獨力、與 AI 協作、或全交給生成式 AI,成效究竟有何差異?我想找出「依任務抽象程度選擇最有效發想模式」的策略。</p>"+
-               "<p><b>我設計的實驗流程</b> — 將受試者分為人類組、AI 協作組、生成式 AI(ChatGPT)組各 21 人(共 63 人);從 MRC 心理語言資料庫選出 10 個由抽象到具體的詞,設計字詞聯想測驗(WAT)作為發散思考任務。</p>"+
+               "<p><b>我設計的實驗流程</b> — 將受試者分為人類組、AI 協作組、生成式 AI(ChatGPT)組;人類組與 AI 協作組各 21 人,生成式 AI 組為 21 次獨立對話;從 MRC 心理語言資料庫選出 10 個由抽象到具體的詞,設計字詞聯想測驗(WAT)作為發散思考任務。</p>"+
                "<p><b>怎麼量化創造力</b> — 以 SemDis 平台計算語意距離、邀 6 位專家就原創性 / 變通性 / 精進性 / 適切性做共識評分、並以回答數量衡量流暢性;再用線性與廣義線性混合效應模型做統計分析。</p>"+
                "<p><b>結果</b> — 抽象詞引發更高的語意距離與專家評分、但流暢性較低;生成式 AI 語意距離最高,然而專家評分三組無顯著差異,代表 AI 的創造品質已達人類水準;協作模式的流暢性顯著高於純人類;部分人類個案仍超越兩種 AI 模式,顯示人類獨創性不可取代。</p>"+
                "<p><b>可複用的工作流程</b> — 抽象階段交給生成式 AI 發散 → 人類做價值對齊與篩選 → AI 協助精練。完整內容見論文 PDF。</p>",
