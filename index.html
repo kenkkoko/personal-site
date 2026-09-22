@@ -12,7 +12,7 @@
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="KAI" />
-<meta name="description" content="林新凱 Kai Lin — 專案管理 × AI Product Builder。把問題拆清楚、把人串起來,用 AI 把想法準時做到上線。" />
+<meta name="description" content="林新凱 Kai Lin — 專案管理 × AI Product Builder。定義目標、設計流程,用數據驗證成果。" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -319,15 +319,6 @@ img.zoomable{cursor:zoom-in}
 .about-row .hl-card{margin-top:0}
 .about-row .socials{margin-top:0}
 .about-row #langCard:empty{display:none}
-.strengths{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px}
-@media(max-width:1000px){.strengths{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.strengths{grid-template-columns:1fr}}
-.str{background:var(--glass);border:1px solid var(--line);border-radius:16px;padding:20px 22px;
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:.35s var(--ease)}
-.str:hover{background:var(--glass-2);border-color:rgba(255,255,255,.18);transform:translateY(-3px)}
-.str .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
-.str h4{font-weight:600;font-size:17px;letter-spacing:-.01em;color:var(--ink);margin:6px 0 8px}
-.str p{color:var(--text);font-weight:300;font-size:14px;line-height:1.7;margin:0;max-width:none!important}
 
 /* ── PM portfolio banner ── */
 .pm-link{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 28px;padding:22px 26px;
@@ -364,7 +355,6 @@ img.zoomable{cursor:zoom-in}
       <div id="langCard"></div>
       <div class="socials" id="socials"></div>
     </div>
-    <div class="strengths" id="strengths"></div>
   </section>
 
   <section id="experience" class="wrap">
@@ -490,19 +480,12 @@ const PROFILES = {
       sub: "Project Manager · AI Product Builder",
       /* roles = Hero 打字機輪播的句子(會逐字打出再收回、反覆循環)。要改字就改這裡。 */
       roles: ["Project / Product Manager.","AI Product Builder.","Plan it. Build it. Ship it.","Bridging people and tech."],
-      zh:  "林新凱 — 把問題拆清楚、把人串起來,用 AI 把想法準時做到上線",
+      zh:  "林新凱 — 定義目標、設計流程,用數據驗證成果",
     },
     about:
-      "數位媒體設計碩士。雖然學歷偏向設計與行銷,這幾年我花最多時間的,其實是 <b>技術開發與專案推進</b>:寫程式把想法做成能實際使用的系統、安排研究與專案的進度,也一直直接面對客戶的需求。比起只負責其中一個環節,我更喜歡 <b>把不同的人和工作串起來</b>,一起完成一個專案。<br><br>"+
-      "我習慣先定義目標、拆解問題、規劃時程,再動手執行,並用數據確認結果。教育遊戲專案在需求持續調整下 <b>3 個月內準時交付</b>;服兵役期間為地政事務所 <b>25 名同仁</b> 規劃 AI 教育訓練;也與 Claude 協作,一個人把投資工具「<a class=\"inline-link\" href=\"https://dca.hellokai07.com/?demo=kai2026\" target=\"_blank\" rel=\"noopener\">Smart DCA</a>」從架構規劃做到上線。我相信 <b>把問題說清楚,再善用工具交付</b>,會是未來專案管理越來越重要的能力。",
-    langCard:"多益 TOEIC <b>735</b> · IEEE GCCE 2024 英文發表",   // About 下方的英文小卡片
-    /* About 下方四張能力卡(PM × AI Builder) */
-    strengths: [
-      {k:"Planning",      h:"進度統籌", p:"把專案拆成階段、設下檢查點,追蹤每週進度;教育遊戲專案在需求調整下 3 個月內準時交付。"},
-      {k:"Communication", h:"溝通協調", p:"大學到碩士持續與客戶、廠商對接,把需求轉成可執行的規格,並用數據說明規格變更的影響。"},
-      {k:"Tech Literacy", h:"技術理解", p:"開發過 VR、AR、Web 與 AI 語音助理,理解技術限制,能和工程師用同一種語言溝通。"},
-      {k:"AI Building",   h:"AI 實作",   p:"需求與架構由我定義、AI 加速實作,一個人把產品做到上線;也把 AI 應用流程教給非技術同仁。"},
-    ],
+      "數位媒體設計碩士。雖然學歷偏向設計與行銷,這幾年我花最多時間的,其實是 <b>技術開發與專案推進</b>,寫程式把想法做成能實際使用的系統、安排研究與專案的進度,也一直直接面對客戶的需求。比起只負責其中一個環節,我更喜歡和不同專業的夥伴協作,一起把專案完成。<br><br>"+
+      "我習慣先定義目標、拆解問題、規劃時程,再動手執行,並用數據確認結果。教育遊戲專案在需求持續調整下 <b>3 個月內準時交付</b>;服兵役期間為地政事務所 <b>25 名同仁</b> 規劃 AI 教育訓練;也與 Claude 協作,一個人把投資工具「<a class=\"inline-link\" href=\"https://dca.hellokai07.com/?demo=kai2026\" target=\"_blank\" rel=\"noopener\">Smart DCA</a>」從架構規劃做到上線。我相信 <b>定義規格、設計流程、善用工具</b>,會是未來專案管理越來越重要的能力。",
+    langCard:"多益 TOEIC <b>735</b>",   // About 下方的英文小卡片
     experience: [
       {
         role:"教育遊戲專案|規劃、製作與交付", org:"教育遊戲專案", loc:"遠端協作", period:"2026.06 — 2026.09", open:true,
@@ -727,8 +710,7 @@ document.getElementById("zh").textContent  = DATA.hero.zh;
 document.getElementById("aboutText").innerHTML = DATA.about;
 /* 頂部「英文/多益」卡片:只有定義 langCard 的版本才顯示(builder 有、marketing 無) */
 document.getElementById("langCard").innerHTML = DATA.langCard ? `<span class="hl-card">${DATA.langCard}</span>` : "";
-document.getElementById("strengths").innerHTML = (DATA.strengths||[]).map((x,i)=>
-  `<div class="str rv" data-d="${i%4+1}"><div class="k">${x.k}</div><h4>${x.h}</h4><p>${x.p}</p></div>`).join("");
+
 {
   const L=DATA.links, S=[];
   if(L.github)   S.push(`<a href="${L.github}"   target="_blank" rel="noopener" aria-label="GitHub">${ICON.github}</a>`);
@@ -880,7 +862,7 @@ const mail=document.getElementById("mail");
 mail.href=`mailto:${C.email}`; mail.innerHTML=`${C.email} ${ICON.ext}`;
 document.getElementById("cinfo").innerHTML = `<span>📍 ${C.location}</span>`;
 document.getElementById("contactLead").innerHTML =
-  "把問題拆清楚、把人串起來,<b>讓專案準時交付</b>。<br>正在尋找專案管理與產品相關的職位,歡迎一起聊聊。";
+  "定義目標、設計流程,<b>讓專案準時交付</b>。<br>正在尋找專案管理與產品相關的職位,歡迎一起聊聊。";
 /* 聯絡表單:送到 Cloudflare Worker(/api/contact),由後端寄信到我的信箱 */
 (function(){
   const f=document.getElementById("contactForm"); if(!f) return;
