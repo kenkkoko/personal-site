@@ -330,6 +330,30 @@ img.zoomable{cursor:zoom-in}
 .pm-link p{color:var(--text);font-weight:300;font-size:14.5px;margin:0}
 .pm-link .go{font-size:13px;font-weight:500;white-space:nowrap;padding:9px 15px;border-radius:10px;background:#f2f2f4;color:#08080a}
 @media(max-width:600px){.pm-link{flex-direction:column;align-items:flex-start}}
+
+/* ── apps:自己做、已上線的產品,用 App 圖示凸顯 ── */
+#apps{padding:clamp(60px,11vh,130px) 0 0}
+.apps{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:860px){.apps{grid-template-columns:1fr}}
+.app{position:relative;display:flex;flex-direction:column;gap:18px;padding:28px;border-radius:20px;cursor:pointer;
+  background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  overflow:hidden;transition:.35s var(--ease)}
+.app::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;transition:opacity .35s var(--ease);
+  background:radial-gradient(90% 70% at 0% 0%,var(--tint),transparent 70%)}
+.app:hover{border-color:rgba(255,255,255,.2);transform:translateY(-4px)}
+.app:hover::before{opacity:.9}
+.app-head{display:flex;align-items:center;gap:18px}
+.app-icon{width:84px;height:84px;border-radius:22%;flex:none;box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08)}
+.app-head h3{font-weight:700;font-size:26px;letter-spacing:-.03em;line-height:1.1}
+.app-head .tagline{color:var(--text);font-weight:400;font-size:15px;margin-top:6px;line-height:1.45}
+.app-plat{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.app-plat span{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+.app>p{color:var(--text);font-weight:300;font-size:15px;line-height:1.75;flex:1}
+.app .card-links{margin-top:0}
+.app .plink.main{background:#f2f2f4;color:#08080a;border-color:#f2f2f4}
+.app .plink.main:hover{background:#fff}
+@media(max-width:480px){.app{padding:22px}.app-head{align-items:flex-start}.app-icon{width:64px;height:64px}.app-head h3{font-size:22px}.app-head .tagline{font-size:14px}}
 </style>
 </head>
 <body>
@@ -360,6 +384,11 @@ img.zoomable{cursor:zoom-in}
   <section id="experience" class="wrap">
     <h2 class="h-sec rv">Experience</h2>
     <div id="expList"></div>
+  </section>
+
+  <section id="apps" class="wrap">
+    <h2 class="h-sec rv">Apps</h2>
+    <div class="apps" id="appGrid"></div>
   </section>
 
   <section id="projects" class="wrap">
@@ -444,6 +473,7 @@ const SHARED = {
     {label:"Home",       href:"#home"},
     {label:"About",      href:"#about"},
     {label:"Experience", href:"#experience"},
+    {label:"Apps",       href:"#apps"},
     {label:"Projects",   href:"#projects"},
     {label:"Stack",      href:"#stack", opt:true},
     {label:"Education",  href:"#education", opt:true},
@@ -541,7 +571,47 @@ const PROFILES = {
         tech:["Blender","Maya","CG","3D Modeling"],
       },
     ],
-    projectFilters:["All","Product","AI","Research","PM"],
+    projectFilters:["All","AI","Research","PM"],
+    /* ── Apps:自己做、已上線的產品(卡片會顯示 App 圖示) ── */
+    apps: [
+      {
+        title:"Smart DCA", badge:"Web App", cats:["Product","AI"],
+        icon:"IMG/logo/app-smartdca.png", tint:"rgba(143,164,255,.28)",
+        tagline:"用市場情緒決定什麼時候加碼的定期定額工具",
+        platforms:["Web","PWA","LINE Bot"],
+        desc:"AI 投資輔助 Web App。用恐懼貪婪指數與 RSI 等簡單指標作為進出場策略,把市場情緒轉成清楚的訊號,幫使用者建立投資紀律。整合加密 / 美股 / 台股三市場、投資組合追蹤與社群論壇,以 Gemini 自動總結財經新聞與市場建議,並透過 LINE Bot 與 Web Push 每日推播。一人從 0 設計到上線。",
+        links:[{label:"Live Demo",url:"https://dca.hellokai07.com/?demo=kai2026",main:true},{label:"專案案例",url:"https://pm.hellokai07.com/cases/smart-dca.html"}],
+        tech:["HTML / JS","Supabase","yfinance","Gemini LLM","LINE Bot","Web Push","PWA","RSI / FNG"],
+        /* detail = 點卡片後的展示視窗(已放大)。因為 Smart DCA 要登入才看得到,
+           這裡用「封面 + 說明 + 截圖」呈現,讓人不登入也能看到內容。
+           圖片做法:把檔案放進 repo 的 images/ 資料夾,再把路徑填進下面。 */
+        detail:{
+          cover:"IMG/smartDCA/PNG/MAIN.png",   // 彈窗最上方大圖
+          text:"<p><b>痛點</b> — 個人投資者容易被情緒帶著走、進出場缺乏紀律。我用恐懼貪婪指數與 RSI 等簡單指標,把抽象的市場情緒轉成明確的進出場訊號,再用每日推播提醒,協助使用者建立紀律。</p>"+
+               "<p><b>運作流程</b> — yfinance 與 CNN 抓取行情與情緒指數 → 後端依 RSI / 恐懼貪婪門檻計算進出場訊號 → Supabase 儲存使用者與自選清單 → 前端呈現三市場儀表板 → 每日透過 LINE Bot 與 Web Push 推播。一人從 0 設計到上線,3 週完成 MVP。</p>"+
+               "<p><b>核心功能</b> — 三市場(加密 / 美股 / 台股)訊號整合、投資組合追蹤、社群論壇、Gemini 自動總結財經新聞與市場建議、可安裝 PWA。</p>"+
+               "<p><b>未來規劃</b> — 投資建議的 AI 功能將進一步開發成 AI Agent,主動依使用者持倉與風險偏好給出個人化策略;商業化規劃數據訂閱(基礎免費、深度 AI 分析付費)、達人 IP 內容分潤與券商導流。</p>",
+          images:["IMG/smartDCA/PNG/PFO+ARTICLE.png"],  // 彈窗大圖下方的第二張
+        },
+      },
+      {
+        title:"KaiReader", badge:"Web App", cats:["Product","AI"],
+        icon:"IMG/logo/app-kaireader.png", tint:"rgba(169,223,84,.24)",
+        tagline:"會朗讀、會翻譯、會導讀的電子書閱讀器",
+        platforms:["Web / 手機","Windows","三星電視","Chromecast"],
+        desc:"想在電視上聽書、在電腦上讀英文書,所以自己做了這個閱讀器。支援 EPUB／MOBI,Azure 自然語音朗讀並自動翻頁、英文書一鍵翻成繁中;AI 會讀完整本書產生導讀,也能畫重點、寫筆記,再請 AI 整理成重點筆記。四個平台共用同一套核心,從 0 到四個平台上線約兩天。",
+        links:[{label:"開啟網頁版",url:"https://kaireader.hellokai07.com/",main:true},{label:"專案案例",url:"https://pm.hellokai07.com/cases/kaireader.html"}],
+        tech:["HTML / JS","Electron","Tizen","Android","Azure Speech","Azure Translator","Azure OpenAI","PWA","Cloudflare"],
+        detail:{
+          cover:"IMG/reader/reader-desktop.jpg",
+          text:"<p><b>痛點</b> — 市面上的閱讀器不會在電視上念書、不會把英文書翻成繁中,也不會幫我整理讀過的重點。我要的是一個在客廳電視、電腦、手機都能用,而且能「聽、翻、讀懂」的閱讀器。</p>"+
+               "<p><b>做了什麼</b> — 一套共用的閱讀核心(EPUB／MOBI 解析、分頁、簡轉繁),接上 Azure 語音(朗讀並自動翻頁)、Azure 翻譯(英翻繁,可隨時切回原文)、Azure OpenAI(讀完全書產生導讀、整理我畫的重點)。再包成三星智慧螢幕 App、給家人用的 Chromecast App(書放 Google Drive 就自動出現)、Windows 桌面版,以及可安裝的網頁版。</p>"+
+               "<p><b>關鍵取捨</b> — AI 每月預算只有 1 美元:全書導讀改成分段摘要再彙整、每段都快取,重做不重花錢,並換成較便宜的模型、內建花費上限。公開版與網頁版不放任何金鑰,使用者填自己的 Azure 金鑰,只存在自己的裝置。也評估過串接盜版書站,基於版權選擇不做。</p>"+
+               "<p><b>下一步</b> — Google 登入,書放在使用者自己的雲端硬碟,閱讀進度與重點跨裝置同步。</p>",
+          images:["IMG/reader/reader-ai.jpg","IMG/reader/reader-phones.jpg"],
+        },
+      },
+    ],
     projects: [
       {
         title:"AI 協作 × 創造力研究", badge:"碩士論文", cats:["AI","Research"],
@@ -569,23 +639,6 @@ const PROFILES = {
                "<p><b>互動設計</b> — 在 VR 場景中以按鈕輸入語音、請 NPC 總結重點、提供參考範例,降低使用者組織想法的負擔。</p>"+
                "<p><b>發表</b> — IEEE GCCE 2024(日本九州)研討會。</p>",
           images:["IMG/VR_chatgpt/workflow.png","IMG/VR_chatgpt/workflow1.png"],
-        },
-      },
-      {
-        title:"Smart DCA", badge:"Web App", cats:["Product","AI"],
-        desc:"AI 投資輔助 Web App。用恐懼貪婪指數與 RSI 等簡單指標作為進出場策略,把市場情緒轉成清楚的訊號,幫使用者建立投資紀律。整合加密 / 美股 / 台股三市場、投資組合追蹤與社群論壇,以 Gemini 自動總結財經新聞與市場建議,並透過 LINE Bot 與 Web Push 每日推播。一人從 0 設計到上線。",
-        links:[{label:"Live Demo",url:"https://dca.hellokai07.com/?demo=kai2026"}],
-        tech:["HTML / JS","Supabase","yfinance","Gemini LLM","LINE Bot","Web Push","PWA","RSI / FNG"],
-        /* detail = 點卡片後的展示視窗(已放大)。因為 Smart DCA 要登入才看得到,
-           這裡用「封面 + 說明 + 截圖」呈現,讓人不登入也能看到內容。
-           圖片做法:把檔案放進 repo 的 images/ 資料夾,再把路徑填進下面。 */
-        detail:{
-          cover:"IMG/smartDCA/PNG/MAIN.png",   // 彈窗最上方大圖
-          text:"<p><b>痛點</b> — 個人投資者容易被情緒帶著走、進出場缺乏紀律。我用恐懼貪婪指數與 RSI 等簡單指標,把抽象的市場情緒轉成明確的進出場訊號,再用每日推播提醒,協助使用者建立紀律。</p>"+
-               "<p><b>運作流程</b> — yfinance 與 CNN 抓取行情與情緒指數 → 後端依 RSI / 恐懼貪婪門檻計算進出場訊號 → Supabase 儲存使用者與自選清單 → 前端呈現三市場儀表板 → 每日透過 LINE Bot 與 Web Push 推播。一人從 0 設計到上線,3 週完成 MVP。</p>"+
-               "<p><b>核心功能</b> — 三市場(加密 / 美股 / 台股)訊號整合、投資組合追蹤、社群論壇、Gemini 自動總結財經新聞與市場建議、可安裝 PWA。</p>"+
-               "<p><b>未來規劃</b> — 投資建議的 AI 功能將進一步開發成 AI Agent,主動依使用者持倉與風險偏好給出個人化策略;商業化規劃數據訂閱(基礎免費、深度 AI 分析付費)、達人 IP 內容分潤與券商導流。</p>",
-          images:["IMG/smartDCA/PNG/PFO+ARTICLE.png"],  // 彈窗大圖下方的第二張
         },
       },
       {
@@ -769,6 +822,31 @@ document.querySelectorAll("#filters button").forEach(b=>{
   });
 });
 renderProjects("All");
+
+/* ---------- apps ---------- */
+function appCard(p){
+  const links=(p.links||[]).map(l=>
+    `<a class="plink${l.main?' main':''}" href="${l.url}" target="_blank" rel="noopener">${l.label}${ICON.ext}</a>`).join("");
+  const plats=(p.platforms||[]).map(t=>`<span>${t}</span>`).join("");
+  return `<article class="app rv" style="--tint:${p.tint||'rgba(255,255,255,.12)'}">
+    <div class="app-head"><img class="app-icon" src="${p.icon}" alt="${p.title} 圖示" width="84" height="84">
+      <div><h3>${p.title}</h3><div class="tagline">${p.tagline||""}</div>${plats?`<div class="app-plat">${plats}</div>`:""}</div></div>
+    <p>${p.desc}</p>
+    ${links?`<div class="card-links">${links}</div>`:""}
+    <span class="card-more">查看更多 <span class="ar">→</span></span>
+  </article>`;
+}
+const appGrid=document.getElementById("appGrid");
+if(DATA.apps && DATA.apps.length){
+  appGrid.innerHTML=DATA.apps.map(appCard).join("");
+  appGrid.querySelectorAll(".app").forEach((card,i)=>{
+    card.addEventListener("click",()=>openProj(DATA.apps[i]));
+    card.querySelectorAll("a").forEach(a=>a.addEventListener("click",ev=>ev.stopPropagation()));
+  });
+  observe(appGrid.querySelectorAll(".rv"));
+} else {
+  document.getElementById("apps").remove();
+}
 
 /* ---------- stack ---------- */
 document.getElementById("stackList").innerHTML = DATA.stack.map(s=>`
