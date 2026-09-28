@@ -1,0 +1,8 @@
+# 這些檔案不當成網頁公開（worker.js 仍會照常執行）
+.git
+.gitignore
+.assetsignore
+.wrangler
+worker.js
+wrangler.jsonc
+README.md
