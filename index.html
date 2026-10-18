@@ -284,6 +284,9 @@ img.zoomable{cursor:zoom-in}
 .modal-body{color:var(--text);font-weight:300;line-height:1.9;font-size:16.5px;margin-top:20px;max-width:78ch}
 .modal-body p{margin-bottom:14px}.modal-body p:last-child{margin-bottom:0}
 .modal-body b{color:var(--ink);font-weight:600}
+.modal-video{position:relative;aspect-ratio:16/9;margin:20px 0 4px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000}
+.modal-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.modal-video-cap{font-size:13px;opacity:.6;margin-top:8px}
 .modal-cover{width:100%;border-radius:14px;border:1px solid var(--line);display:block;margin:22px 0 4px;
   background:rgba(255,255,255,.02)}
 .modal-imgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:16px;margin-top:24px}
@@ -579,9 +582,9 @@ const PROFILES = {
         icon:"IMG/logo/app-smartdca.png", tint:"rgba(143,164,255,.28)",
         tagline:"用市場情緒決定什麼時候加碼的定期定額工具",
         platforms:["Web","PWA","LINE Bot"],
-        desc:"AI 投資輔助 Web App。用恐懼貪婪指數與 RSI 等簡單指標作為進出場策略,把市場情緒轉成清楚的訊號,幫使用者建立投資紀律。整合加密 / 美股 / 台股三市場、投資組合追蹤與社群論壇,以 Gemini 自動總結財經新聞與市場建議,並透過 LINE Bot 與 Web Push 每日推播。一人從 0 設計到上線。",
-        links:[{label:"Live Demo",url:"https://dca.hellokai07.com/?demo=kai2026",main:true},{label:"專案案例",url:"https://pm.hellokai07.com/cases/smart-dca.html"}],
-        tech:["HTML / JS","Supabase","yfinance","Gemini LLM","LINE Bot","Web Push","PWA","RSI / FNG"],
+        desc:"AI 投資輔助 Web App。用恐懼貪婪指數與 RSI 等簡單指標作為進出場策略,把市場情緒轉成清楚的訊號,幫使用者建立投資紀律。整合加密 / 美股 / 台股三市場、投資組合追蹤與社群論壇,以 Gemini 自動總結財經新聞與市場建議,並透過 LINE Bot 與 Web Push 每日推播。圖表部分逆向拆解 TradingView,再用 React 從零重寫,並能串接本機 AI 直接在圖上分析、標出支撐壓力與趨勢線。一人從 0 設計到上線。",
+        links:[{label:"Live Demo",url:"https://dca.hellokai07.com/?demo=kai2026",main:true},{label:"AI 分析 Demo",url:"https://youtu.be/pEAJ9g4Hl7I"},{label:"專案案例",url:"https://pm.hellokai07.com/cases/smart-dca.html"}],
+        tech:["React","HTML / JS","Supabase","yfinance","Gemini LLM","LINE Bot","Web Push","PWA","RSI / FNG"],
         /* detail = 點卡片後的展示視窗(已放大)。因為 Smart DCA 要登入才看得到,
            這裡用「封面 + 說明 + 截圖」呈現,讓人不登入也能看到內容。
            圖片做法:把檔案放進 repo 的 images/ 資料夾,再把路徑填進下面。 */
@@ -590,7 +593,9 @@ const PROFILES = {
           text:"<p><b>痛點</b> — 個人投資者容易被情緒帶著走、進出場缺乏紀律。我用恐懼貪婪指數與 RSI 等簡單指標,把抽象的市場情緒轉成明確的進出場訊號,再用每日推播提醒,協助使用者建立紀律。</p>"+
                "<p><b>運作流程</b> — yfinance 與 CNN 抓取行情與情緒指數 → 後端依 RSI / 恐懼貪婪門檻計算進出場訊號 → Supabase 儲存使用者與自選清單 → 前端呈現三市場儀表板 → 每日透過 LINE Bot 與 Web Push 推播。一人從 0 設計到上線,3 週完成 MVP。</p>"+
                "<p><b>核心功能</b> — 三市場(加密 / 美股 / 台股)訊號整合、投資組合追蹤、社群論壇、Gemini 自動總結財經新聞與市場建議、可安裝 PWA。</p>"+
+               "<p><b>自製圖表與 AI 分析</b> — 逆向拆解 TradingView 的介面與操作邏輯,用 React 從零重寫圖表引擎:43 種畫線工具、圖層、觀察清單、即時報價。AI 分析串接使用者電腦上的 AI,讀取 K 線與畫線後直接在圖上標出支撐、壓力與趨勢線(<a href=\"https://youtu.be/pEAJ9g4Hl7I\" target=\"_blank\" rel=\"noopener\">看 Demo 影片</a>)。</p>"+
                "<p><b>未來規劃</b> — 投資建議的 AI 功能將進一步開發成 AI Agent,主動依使用者持倉與風險偏好給出個人化策略;商業化規劃數據訂閱(基礎免費、深度 AI 分析付費)、達人 IP 內容分潤與券商導流。</p>",
+          video:"pEAJ9g4Hl7I", videoTitle:"AI 圖表分析 Demo｜AI 讀取 K 線與畫線,直接在圖上標出支撐、壓力與趨勢線",
           images:["IMG/smartDCA/PNG/PFO+ARTICLE.png"],  // 彈窗大圖下方的第二張
         },
       },
@@ -867,7 +872,8 @@ function openModal(html){ modalContent.innerHTML=html; modal.classList.add("open
   const imgs=[...modalContent.querySelectorAll("img")], srcs=imgs.map(im=>im.getAttribute("src"));
   imgs.forEach((im,i)=>{ im.classList.add("zoomable"); im.addEventListener("click",()=>lbOpen(srcs,i)); });
 }
-function closeModal(){ modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow=""; }
+function closeModal(){ modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow="";
+  modalContent.querySelectorAll("iframe").forEach(f=>f.remove()); /* 關閉時停止影片播放 */ }
 modal.querySelectorAll("[data-close]").forEach(el=>el.addEventListener("click",closeModal));
 
 /* ---------- 圖片燈箱:放大、前後切換、關閉 ---------- */
@@ -895,6 +901,8 @@ addEventListener("keydown",e=>{
 function imgGrid(a){ return (a&&a.length)?`<div class="modal-imgs">${a.map(s=>`<img src="${s}" alt="" loading="lazy">`).join("")}</div>`:""; }
 function tagRow(a){ return (a&&a.length)?`<div class="tags">${a.map(t=>`<span class="tag">${t}</span>`).join("")}</div>`:""; }
 function cover(d){ return (d&&d.cover)?`<img class="modal-cover" src="${d.cover}" alt="" loading="lazy">`:""; }
+/* detail.video = YouTube 影片 ID(不公開影片也可以,只要允許嵌入);顯示在大圖下方 */
+function video(d){ return (d&&d.video)?`<div class="modal-video"><iframe src="https://www.youtube-nocookie.com/embed/${d.video}" title="${d.videoTitle||"影片"}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>${d.videoTitle?`<div class="modal-video-cap">${d.videoTitle}</div>`:""}`:""; }
 function openExp(e){
   const d=e.detail||{};
   const text = d.text || e.blocks.map(b=>`<p><b>${b.h}</b><br>${b.items.join("<br>")}</p>`).join("");
@@ -916,6 +924,7 @@ function openProj(p){
     <div class="modal-body"><p>${p.desc}</p>${d.text||""}</div>
     ${tagRow(p.tech)}
     ${cover(d)}
+    ${video(d)}
     ${imgGrid(d.images)}`);
 }
 
