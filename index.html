@@ -589,14 +589,14 @@ const PROFILES = {
            這裡用「封面 + 說明 + 截圖」呈現,讓人不登入也能看到內容。
            圖片做法:把檔案放進 repo 的 images/ 資料夾,再把路徑填進下面。 */
         detail:{
-          cover:"IMG/smartDCA/PNG/MAIN.png",   // 彈窗最上方大圖
+          cover:"IMG/smartDCA/dca-overview.jpg",   // 彈窗最上方大圖
           text:"<p><b>痛點</b> — 個人投資者容易被情緒帶著走、進出場缺乏紀律。我用恐懼貪婪指數與 RSI 等簡單指標,把抽象的市場情緒轉成明確的進出場訊號,再用每日推播提醒,協助使用者建立紀律。</p>"+
                "<p><b>運作流程</b> — yfinance 與 CNN 抓取行情與情緒指數 → 後端依 RSI / 恐懼貪婪門檻計算進出場訊號 → Supabase 儲存使用者與自選清單 → 前端呈現三市場儀表板 → 每日透過 LINE Bot 與 Web Push 推播。一人從 0 設計到上線,3 週完成 MVP。</p>"+
                "<p><b>核心功能</b> — 三市場(加密 / 美股 / 台股)訊號整合、投資組合追蹤、社群論壇、Gemini 自動總結財經新聞與市場建議、可安裝 PWA。</p>"+
                "<p><b>自製圖表與 AI 分析</b> — 逆向拆解 TradingView 的介面與操作邏輯,用 React 從零重寫圖表引擎:43 種畫線工具、圖層、觀察清單、即時報價。AI 分析串接使用者電腦上的 AI,讀取 K 線與畫線後直接在圖上標出支撐、壓力與趨勢線(<a href=\"https://youtu.be/pEAJ9g4Hl7I\" target=\"_blank\" rel=\"noopener\">看 Demo 影片</a>)。</p>"+
                "<p><b>未來規劃</b> — 投資建議的 AI 功能將進一步開發成 AI Agent,主動依使用者持倉與風險偏好給出個人化策略;商業化規劃數據訂閱(基礎免費、深度 AI 分析付費)、達人 IP 內容分潤與券商導流。</p>",
           video:"pEAJ9g4Hl7I", videoTitle:"AI 圖表分析 Demo｜AI 讀取 K 線與畫線,直接在圖上標出支撐、壓力與趨勢線",
-          images:["IMG/smartDCA/PNG/PFO+ARTICLE.png"],  // 彈窗大圖下方的第二張
+          images:[],  // 大圖 → 影片,不另放其他截圖
         },
       },
       {
